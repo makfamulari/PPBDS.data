@@ -104,8 +104,8 @@ Write an `rbinom()` statement to simulate the flipping of a coin that lands on h
 
 ```
 
-```{r coin5_3-hint}
-# Remember that n is the number of observations and size is the number of trials.
+```{r coin5_3-hint, eval=FALSE}
+Remember that n is the number of observations and size is the number of trials.
 ```
 
 ###
@@ -116,7 +116,7 @@ Use `tibble()` to create a new tibble. The tibble should have one column, `head`
 
 ```
 
-```{r coin6-hint, eval = FALSE}
+```{r coin6-hint, eval=FALSE}
 tibble(head = ...)
 ```
 
@@ -195,8 +195,8 @@ We're now going to make a different kind of empirical distribution. Start by usi
 
 ```
 
-```{r coin12-hint-1}
-# To simulate a fair coin, set the prob argument of rbinom() to 0.5.
+```{r coin12-hint-1, eval=FALSE}
+To simulate a fair coin, set the prob argument of rbinom() to 0.5.
 ```
 
 ```{r coin12-hint-2, eval = FALSE}

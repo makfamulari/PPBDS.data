@@ -3,10 +3,6 @@
 
 # Data for *Preceptor’s Primer for <br/> Bayesian Data Science* <img src="man/figures/ulysses_hex_black.png" align = "right"  width="160">
 
-<!-- badges: start -->
-[![R build status](https://github.com/davidkane9/PPBDS.data/workflows/R-CMD-check/badge.svg)](https://github.com/davidkane9/PPBDS.data/actions)
-<!-- badges: end -->
-
 ## About this package
 
 `PPBDS.data` provides the data and the tutorials used in *[Preceptor’s
@@ -26,14 +22,6 @@ from GitHub.
 remotes::install_github("davidkane9/PPBDS.data")
 ```
 
-In order to run these tutorials, you must install the
-[learnrhash](https://github.com/rundel/learnrhash) package, created by
-Colin Rundel.
-
-``` r
-remotes::install_github("rundel/learnrhash")
-```
-
 ## Loading Preceptor’s Data
 
 After installing the package, it loads as any package should.
@@ -44,18 +32,18 @@ library(PPBDS.data)
 
 qscores
 #> # A tibble: 748 x 8
-#>    course_name department course_number term  enrollment hours rating instructor
-#>    <chr>       <chr>      <chr>         <chr>      <int> <dbl>  <dbl> <chr>     
-#>  1 " Introduc… AFRAMER    100Y          2019S         49   2.6    4.2 Jesse McC…
-#>  2 " American… AFRAMER    123Z          2019S         49   3.6    4.4 Cornel We…
-#>  3 " Urban In… AFRAMER    125X          2019S         40   5.2    4.5 Elizabeth…
-#>  4 " Richard … AFRAMER    130X          2019S         23   7.2    4.4 Glenda Ca…
-#>  5 " 19th cen… AFRAMER    131Y          2019S         20   3.5    4.9 Linda Cha…
-#>  6 " Social R… AFRAMER    199X          2019S         19   7.2    4.8 Alejandro…
-#>  7 " Martin L… AFRAMER    199Y          2019S         40   4.2    4.7 Brandon M…
-#>  8 " Elementa… AFRIKAAN   AB            2019S         22   2.9    4.9 John M Mu…
-#>  9 " Elementa… JAMAICAN   AB            2019S         18   1.5    4.9 John M Mu…
-#> 10 " Elementa… WSTAFRCN   AB            2019S         29   2.6    4   John M Mu…
+#>    name             department number term   enrollment hours rating instructor 
+#>    <chr>            <chr>      <chr>  <chr>       <int> <dbl>  <dbl> <chr>      
+#>  1 Introduction to… AFRAMER    100Y   2019-…         49   2.6    4.2 Jesse McCa…
+#>  2 American Democr… AFRAMER    123Z   2019-…         49   3.6    4.4 Cornel West
+#>  3 Urban Inequalit… AFRAMER    125X   2019-…         40   5.2    4.5 Elizabeth …
+#>  4 Richard Wright   AFRAMER    130X   2019-…         23   7.2    4.4 Glenda Car…
+#>  5 19th century Bl… AFRAMER    131Y   2019-…         20   3.5    4.9 Linda Chav…
+#>  6 Social Revoluti… AFRAMER    199X   2019-…         19   7.2    4.8 Alejandro …
+#>  7 Martin Luther K… AFRAMER    199Y   2019-…         40   4.2    4.7 Brandon Mi…
+#>  8 Elementary Afri… AFRIKAAN   AB     2019-…         22   2.9    4.9 John M Mug…
+#>  9 Elementary Jama… JAMAICAN   AB     2019-…         18   1.5    4.9 John M Mug…
+#> 10 Elementary West… WSTAFRCN   AB     2019-…         29   2.6    4   John M Mug…
 #> # … with 738 more rows
 ```
 
@@ -71,19 +59,30 @@ assign to an object manually. See the following example of a plot using
 
 library(ggplot2)
 
-qscores %>%
-  filter(department == "GOV") %>%
-  ggplot(aes(y = workload, x = enrollment)) + 
-  geom_point(aes(color = term)) + 
-  labs(
-    title = "Rudimentary Graphic to Test Function",
-    subtitle = "Better graphic, potentially from 1005 work coming",
-    caption = "Never forget to cite")
+qscores %>% 
+  filter(department == "GOV") %>% 
+  ggplot(aes(hours, rating, color = term)) +
+    geom_point(aes(size = enrollment), alpha = 0.4) +
+    geom_smooth(method = "lm", formula = y ~ x, se = FALSE) +
+    facet_wrap(~term) +
+    labs(
+      title = "Student Course Evaluations at Harvard",
+      subtitle = "Department of Government",
+      caption = "Data provided by Aurash Vatan '23",
+      x = "Weekly workload, hours",
+      y = "Rating, 1 (worst) to 5 (best)",
+      size = "Enrollment") +
+    theme_linedraw() +
+    theme(
+        text = element_text(family = "Palatino"),
+        axis.text.x = element_text(size = 10),
+        axis.text.y = element_text(size = 10)) +
+    scale_color_discrete(guide = "none")
 ```
 
 <!-- DK: We need some comments explaining what this is doing and how we can replace it. Specifically, why place the figure in man/ rather than inst/? -->
 
-<img src= "man/figures/README-quick.plot-1.png" align="center" width="600">
+<img src= "man/figures/README-plot-1.png" align="center" width="600">
 
 ## Citing PPBDS.data
 

@@ -3,17 +3,11 @@ title: "Instructions for Writing Tutorials"
 output: html_document
 ---
 
-<!-- TO-DO: -->
 
-<!-- Can we show "answers" to a Tutorial after students have submitted it? How? Maybe all we need is a script which pulls out the code for all the major examples and puts it in a single RMD which we could knit and distribute? -->
+<!-- 1) Please clean this up. -->
 
-<!-- Can we give students a search box in the tutorial so that they can find answers to questions they have already done? -->
+<!-- 2) Add chunk requesting email address. Explain here and place in all 8 tutorials. (Specify college email address.) -->
 
-<!-- There is a lot of redundent text in tutorials: Write your name, submit, et cetera. Any way to avoid copying/pasting that each time? -->
-
-<!-- Any ideas why students are losing work? -->
-
-<!-- Simple way to process student answers.  -->
 
 
 
@@ -335,12 +329,17 @@ You may also include other packages which your tutorial makes use of, but the fi
 * The first question should require that students give us their name. This way, when we generate a hash of a student's responses, their name is included in the hash and copy-pasting another student's hash is made impractical.
 
 ````rmarkdown
-``` {r name, echo=FALSE}
-question_text("Student Name:",
-              answer(NULL, correct = TRUE),
-              incorrect = "Ok",
-              try_again_button = "Modify your answer",
-              allow_retry = TRUE)
+## Name 
+###
+
+``` {r name}
+question_text(
+  "Student Name:",
+  answer(NULL, correct = TRUE),
+  allow_retry = TRUE,
+  try_again_button = "Modify your answer",
+  incorrect = "Ok"
+)
 ```
 ````
 

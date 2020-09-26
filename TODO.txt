@@ -2,6 +2,10 @@
 
 # Priorities
 
+We had a bug in which ui_submission was throwing an error that the object could not be found. The cause was that the writer had an old version of PPBDS.data installed, one which did not have that function. Problem solved! But how could that problem occur given that we have a renv.lock file which guarantees that we are all using the same version of all packages? Turns out that the renv.lock file was missing PPBDS.data. Problem solved! But then, no matter how many times I tried renv::snapshot() and other tricks, I could not add it. And, even when I added it by hand to renv.lock --- something you are not supposed to do! --- it still did not work.
+
+Question: Are you allowed to add the package on which you are currently working to renv.lock? If the answer is No, how do you ensure that code in the package --- in the tutorials in this case --- which load up the current package are getting the latest version of the package?
+
 
 Talk about Open Policing. Maybe San Antonia?
 

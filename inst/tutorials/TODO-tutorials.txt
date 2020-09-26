@@ -1,5 +1,38 @@
 TODO Items for Tutorials
 
+Short Term:
+
+Expand the questions in the tools tutorial to cover more of the topics in the Tools Appendix. But, at the some time, we don't need to cover everything because much of the material is used in the Recitations.
+
+Reorganize visualization-A so that it looks more like other tutorials, with clear groups, and then exercises.
+
+Read: https://rstudio.github.io/renv/articles/renv.html Make sure this works for you.
+
+Shea: Do, and then fix, tutorial 4. Read the chapter as well, of course.
+
+
+Long Term:
+
+
+
+Can we show "answers" to a Tutorial after students have submitted it? How? Maybe all we need is a script which pulls out the code for all the major examples and puts it in a single RMD which we could knit and distribute?
+
+Can we give students a search box in the tutorial so that they can find answers to questions they have already done?
+
+There is a lot of redundent text in tutorials: Write your name, submit, et cetera. Any way to avoid copying/pasting that each time?
+
+Any ideas why students are losing work?
+
+
+
+<!-- Can we show "answers" to a Tutorial after students have submitted it? How? Maybe all we need is a script which pulls out the code for all the major examples and puts it in a single RMD which we could knit and distribute? -->
+
+<!-- Can we give students a search box in the tutorial so that they can find answers to questions they have already done? -->
+
+<!-- There is a lot of redundent text in tutorials: Write your name, submit, et cetera. Any way to avoid copying/pasting that each time? -->
+
+<!-- Any ideas why students are losing work? -->
+
 1) Write a tools tutorial. Almost all questions are instructions to do X at your Terminal and then copy/paste the results of X as your answer. Note that there is a git command to show email and other settings.
 
 2) Split out visualization into two parts. Make both parts look more like wrangling. Exercise numbering. Closer connection to the book.
@@ -31,5 +64,12 @@ I like the way Jake did this:
 
 
 Add search function to tutorials.
+
+Interesting discussion and some plausible claims: http://laderast.github.io/2020/09/15/getting-learnr-tutorials-to-run-on-mybinder-org/. Claims that "the .Rmd file containing the tutorial should be named the same as the directory it is in." But why? Also: "I personally like to have individual data/ folders in each tutorial, as it makes making them a little easier to deploy." Interesting! Would be nice to make each tutorial more self-contained., perhaps.
+
+
+
+
+
 
 

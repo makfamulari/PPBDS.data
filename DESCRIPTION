@@ -1,6 +1,6 @@
 Package: PPBDS.data
 Title: Data for Preceptor's Primer for Bayesian Data Science
-Version: 0.3.2.9005
+Version: 0.3.2.9006
 Authors@R: c(
     person(given = "David",
            family = "Kane",
@@ -42,4 +42,5 @@ Imports:
     rmarkdown
 BugReports: https://github.com/davidkane9/PPBDS.data/issues
 Suggests: 
-    fs
+    fs,
+    roxygen2

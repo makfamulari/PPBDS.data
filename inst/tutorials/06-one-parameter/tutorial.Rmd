@@ -50,15 +50,38 @@ question_text(
 ## The "virtual shovel"
 ###
 
-We have created a virtual urn with some unknown amount of red beads and white beads. Our goal will eventually be to estimate the total number of red beads in the urn.
+We have created a virtual urn with some unknown amount of red beads and white beads. Our goal will eventually be to estimate the total number of red beads in the urn. 
 
-To view the urn, simply type `urn` in the window below and hit "Run Code".
+For this portion of the tutorial, we will be replicating the graph below. The goal is to build this graph step-by-step, using the knowledge from The Primer's Chapter 6. 
+
+```{r}
+urn %>%
+  rep_sample_n(size = 20, reps = 50, replace = TRUE) %>%
+  mutate(is_red = (color == "red"), 
+         is_white = (color == "white"), 
+         .groups = "drop") %>%
+  summarize(num_red = sum(is_red), 
+            num_white = sum(is_white)) %>%
+  mutate(prop_red = num_red / (num_red + num_white)) %>%
+  mutate(estimated_red = prop_red * 1500) %>%
+  ggplot(mapping = aes(x = estimated_red)) +
+    geom_histogram(binwidth = 75, color = "white") +
+    scale_y_continuous(breaks = seq(from = 0, to = 20, by = 2)) +
+    scale_x_continuous(breaks = seq(from = 0, to = 1500, by = 100)) +
+  labs(title = "Range of Estimates Using Shovel of Size 20",
+       x = "Estimated number of red beads")
+```
+
+
+### Exercise 1
+
+To view the urn, simply type `urn` in window below and hit Run Code.
 
 ```{r shovel1, exercise = TRUE}
 
 ```
 
-###
+### Exercise 2
 
 It appears that there are 1,500 beads in the urn (i.e. 1,500 rows in our tibble). Is this really the case? Run `nrow()` on `urn` to confirm the number of beads in the urn.
 
@@ -66,7 +89,7 @@ It appears that there are 1,500 beads in the urn (i.e. 1,500 rows in our tibble)
 
 ```
 
-###
+### Exercise 3
 
 To simulate the process of real-world sampling, where we generally won't know exactly how many items are in our population, pipe `urn` into `rep_sample_n()` from the **infer** package, with a shovel `size` of 20 (i.e. the sample should have 20 observations). This simulates drawing a sample of size 20 from our urn one time.
 
@@ -79,7 +102,7 @@ urn %>%
   rep_sample_n(...)
 ```
 
-###
+### Exercise 4
 
 Continuing your pipe, use `mutate()` to create two new variables: `is_red` should be a logical equal to the result of asking if `color` is "red," and `is_white` should be identical but replaced with the `color` "white." Remember to copy and paste your code from the previous exercise.
 
@@ -87,11 +110,11 @@ Continuing your pipe, use `mutate()` to create two new variables: `is_red` shoul
 
 ```
 
-```{r shovel4-hint}
-# is_red should be equal to (color == "red").
+```{r shovel4-hint, eval=FALSE}
+is_red should be equal to (color == "red").
 ```
 
-###
+### Exercise 5
 
 Next, use `summarize()` to create two more variables. `num_red` should be equal to the `sum()` of the `is_red` column, and `num_white` should be equal to the `sum()` of the `is_white` column. Are you reading *The Primer* before --- or at least as the same time as --- doing this Tutorial? If not, this won't make much sense.
 
@@ -103,7 +126,7 @@ Next, use `summarize()` to create two more variables. `num_red` should be equal 
 summarize(num_red = ..., num_white = ...)
 ```
 
-###
+### Exercise 6
 
 Call `mutate()` to create the variable `prop_red`, the proportion of the sampled beads that are red. Set `prop_red` equal to the number of red beads divided by the sum of the number of red beads and white beads.
 
@@ -111,11 +134,11 @@ Call `mutate()` to create the variable `prop_red`, the proportion of the sampled
 
 ```
 
-```{r shovel6-hint}
-# The proportion of red beads is num_red / (num_red + num_white).
+```{r shovel6-hint, eval=FALSE}
+The proportion of red beads is num_red / (num_red + num_white).
 ```
 
-###
+### Exercise 7
 
 Finally, use `mutate()` to create the `estimated_red` variable, our estimate of the number of red beads in the urn. `estimated_red` should be equal to `prop_red` multiplied by 1,500, the total number of beads in the urn.
 
@@ -123,7 +146,11 @@ Finally, use `mutate()` to create the `estimated_red` variable, our estimate of 
 
 ```
 
-###
+```{r shovel7-hint, eval=FALSE}
+The estimated_red variable should be equal to (prop_red * 1500).
+```
+
+### Exercise 8
 
 Nice work! Running the code below gives us a way to virtually sample our urn in 20-bead increments. Notice that running the code multiple times gives us different estimates for the number of red beads in the urn. Each time we re-run the code, `rep_sample_n()` grabs a different sample from the urn.
 
@@ -139,7 +166,7 @@ urn %>%
   mutate(estimated_red = prop_red * 1500)
 ```
 
-###
+### Exercise 9
 
 Use `ggplot()` and `geom_histogram()` to create a histogram that maps our 50 values of `estimated_red` to the x-axis.
 
@@ -147,7 +174,11 @@ Use `ggplot()` and `geom_histogram()` to create a histogram that maps our 50 val
 
 ```
 
-###
+```{r shovel9-hint, eval=FALSE}
+After copying our code from above, add ggplot(mapping = aes(...). Remember that, with ggplot, our next line of code requires a "+" not a pipe.
+```
+
+### Exercise 10
 
 Let's make our graph easier to read by setting the histogram's `binwidth` to 75 and `color` to "white."
 
@@ -155,7 +186,11 @@ Let's make our graph easier to read by setting the histogram's `binwidth` to 75 
 
 ```
 
-###
+```{r shovel10-hint, eval=FALSE}
+geom_histogram(binwidth = ..., color = ...)
+```
+
+### Exercise 11
 
 We can use the `breaks` argument of a `scale_` function, alongside the `seq()` function, to reset the location of the tick marks on either axis. Run the code below to see how we can reset the tick marks on the y-axis to the even numbers from 0 to 20.
 
@@ -174,7 +209,7 @@ urn %>%
     scale_y_continuous(breaks = seq(from = 0, to = 20, by = 2))
 ```
 
-###
+### Exercise 11
 
 Use `scale_x_continuous()` to reset the tick marks on the x-axis to the multiples of 100 between 0 and 1,500. Copy and paste the code from the previous exercise to visualize the adjustment that we made to the y-axis and apply it to this prompt.
 
@@ -183,10 +218,10 @@ Use `scale_x_continuous()` to reset the tick marks on the x-axis to the multiple
 ```
 
 ```{r shovel12-hint}
-# The "by" argument of your seq() function should be 100.
+The "by" argument of your seq() function should be 100.
 ```
 
-###
+### Exercise 12
 
 Great job! By running the code below a few times, we see that the number of red beads in the urn is probably somewhere between 700 and 1,100. We'll learn more about how to refine our estimate in later sections.
 
@@ -227,6 +262,7 @@ Let's start by practicing how to create our own functions. Run the code below to
 rounded_sqrt <- function(x) {
   round(sqrt(x))
 }
+
 rounded_sqrt(6)
 rounded_sqrt(7)
 ```

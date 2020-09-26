@@ -7,14 +7,11 @@ output:
       progressive: true
       allow_skip: true
 runtime: shiny_prerendered
-description: "Chapter 4 tutorial"
+description: "Chapter 4 Tutorial"
 ---
+<!-- TO DO -->
 
-<!-- Ch. 4 tutorial questions taken from rstudio-education/primers GitHub repo and list-column/mapping questions written by Evelyn Cai -->
-
-<!-- Issues: -->
-
-<!-- Does it make sense for exercise set-up chunks to ever have eval=FALSE? That seems weird to me. What is the point of a set-up chunk if it is not run? -->
+<!-- BG: r chunk for bar plot needs to be inserted at the top of the Crooked Casino section -->
 
 ```{r setup, include=FALSE}
 library(tidyverse)
@@ -24,72 +21,124 @@ library(shiny)
 library(gapminder)
 library(skimr)
 knitr::opts_chunk$set(echo = FALSE, message = FALSE)
-options(tutorial.storage="local")  
+options(tutorial.exercise.timelimit = 60, tutorial.storage="local")
 ```
 
-## Introduction to Functions
+## Confirm Correct Package Version
+###
 
-```{r name, echo=FALSE}
+Confirm that you have the correct version of PPBDS.data installed by pressing "Run Code."
+
+```{r confirm, exercise=TRUE}
+packageVersion('PPBDS.data')
+```
+
+The answer should be ‘0.3.2.9006’, or a higher number. If it is not, you should upgrade your installation by issuing these commands:
+
+
+```{r confirm-advice, echo=TRUE, eval=FALSE}
+remove.packages('PPBDS.data')  
+library(remotes)  
+remotes::install_github('davidkane9/PPBDS.data')  
+```
+
+Strictly speaking, it should not be necessary to remove a package. Just installing it again should overwrite the current version. But weird things sometimes happen, so removing first is the safest approach. 
+
+## Name 
+###
+
+``` {r name}
 question_text(
   "Student Name:",
   answer(NULL, correct = TRUE),
-  incorrect = "Ok",
+  allow_retry = TRUE,
   try_again_button = "Modify your answer",
-  allow_retry = TRUE
+  incorrect = "Ok"
 )
 ```
 
-```{r firstquiz}
-quiz(caption = "Concept Check: Function Basics",
+
+
+## Introduction
+###
+
+Let's do a quick refresher about functions.
+
+
+### Exercise 1
+
+```{r if-1}
+quiz(
   question("Select all that apply: Which of the following operations can be achieved by running a function in R?",
            answer("Taking a log value", correct = TRUE),
            answer("Fitting a linear model", correct = TRUE),
            answer("Averaging two numbers", correct = TRUE),
-           allow_retry = TRUE),
-  question("Which of the following is not a part of a function?",
+           allow_retry = TRUE)
+)
+```
+
+### Exercise 2
+
+```{r if-2}
+quiz(
+question("Which of the following is not a part of a function?",
          allow_retry = TRUE,
          random_answer_order = TRUE,
          answer("A name", correct = TRUE, message = "That's right, functions contain a code body, a set of formal arguments, and an environment, but not a name. They just happen to inherit a name from the object they are stored in."),
          answer("A code body", message = "Functions do require a code body! You can inspect this part of the function by using the helper function body()."),
          answer("A (potentially empty) set of formal arguments", message = "Functions do require formal arguments, even if they are empty! You can inspect this part of the function by using the helper function formals()."),
-         answer("An environment", message = "Functions do require an environment, which is a self-contained space to look up the values of any objects within it. You can inspect this part of the function by using the helper function environment().")),
-  question("Suppose you need to run the following code on 20 different objects, `sqrt(sum(x^2))`. Why would you not want to rewrite the code 20 times? (Check all that apply)",
-     answer("Retyping code takes time.", correct = TRUE),
-     answer("Typing the code 20 times creates 20 chances to make a typo.", correct = TRUE),
-     answer("If you need to change the code later, you'll need to change it in 20 different places.", correct = TRUE),
-     allow_retry = TRUE, 
-     type = "multiple", 
-     incorrect = "Did you check ALL that applied?",
-     correct = "Good job! You can avoid these outcomes by turning your code into a function. A good rule is to turn a piece of code into a function whenever you find yourself re-using the code more than three times."),
-    question("Which of these will run the `Sys.time` function?",
-         answer("Sys.time"),
-         answer("Sys.time()", correct = TRUE, 
-         message = "The open and closed parentheses tell R to execute the code in the code body of the function stored in the object names Sys.time.")))
+         answer("An environment", message = "Functions do require an environment, which is a self-contained space to look up the values of any objects within it. You can inspect this part of the function by using the helper function environment()."))  
+)
 ```
 
-## Lists and list-columns
+### Exercise 3
 
-```{r quiz-1}
-quiz(caption = "Concept Check: Map functions and list-columns",
-  question("What is a list-column?",
-           answer("A list in which there is only one variable, and therefore only one \"column\""),
-           answer("A list which only contains variable, or \"column\" names"),
-           answer("A column of your data whose data type is a list rather than a character, numeric, integer, complex, or logical", message = "Remember, a list is not a data type, but rather a data structure! Other data structures include data frames and factors." ),
-           answer("A column of your data which is a list rather than a vector", correct = TRUE),
-           allow_retry = TRUE
-  ),
-  question("What does map_dbl() mean?",
+```{r if-4}
+quiz(
+question("Which of these will run the `Sys.time` function?",
+         answer("Sys.time"),
+         answer("Sys.time()", correct = TRUE, 
+         message = "The open and closed parentheses tell R to execute the code in the code body of the function stored in the object names Sys.time."))
+)
+```
+
+
+## Lists and list-columns
+###
+
+### Exercise 1
+
+
+We use map_* functions to create list
+```{r ll-2}
+quiz(
+question("What does map_dbl() mean?",
            answer("The input to the map_dbl() function must be numeric"),
-           answer("The output of the map_dbl() function will be numeric", correct = TRUE),
-           allow_retry = TRUE
-  ),
-  question("How are map_* functions different than mutate()?",
+           answer("The output of the map_dbl() function will be numeric", 
+                  correct = TRUE),
+           allow_retry = TRUE)
+)
+```
+
+### Exercise 2
+
+
+```{r ll-3}
+quiz(
+question("How are map_* functions different than mutate()?",
            allow_retry = TRUE,
            answer("They can take list inputs and iterate over each element of a list", correct = TRUE),
            answer("They are the same, except you can specify what output data type you'd like to have"),
            answer("They can apply functions to their inputs, whereas mutate() cannot"),
-           answer("They can apply custom and anonymous functions to their inputs, whereas mutate() can only apply built-in functions to their inputs")),
-   question("Which of the following is correct about map_* functions?",
+           answer("They can apply custom and anonymous functions to their inputs, whereas mutate() can only apply built-in functions to their inputs"))  
+)
+```
+
+### Exercise 3 
+
+```{r ll-4}
+quiz(
+  question("Which of the following is correct about map_* functions?",
             allow_retry = TRUE,
            answer("You do not need the parentheses when specifying a function for the map_* function to apply. Ex: map(data, mean)", correct = TRUE),
            answer("You do need the parentheses when specifying a function for the map_* function to apply. Ex: map(data, mean())"),
@@ -102,13 +151,12 @@ quiz(caption = "Concept Check: Map functions and list-columns",
 )
 ```
 
-### 
 
-Create a list-column called `col_2` using `str_split()` that splits the phrases into "Government", "Data Science", "Preceptor", and "Primer".
+### Exercise 4
+A simple tibble was created with one variable. Add to the pipe some code which creates a new list-column called `col_2`. Use `mutate` function and the argument `str_split()` to split the phrases into "Government", "Data Science", "Preceptor", and "Primer".
 
-```{r exercise-0, exercise=TRUE, eval=FALSE}
-tibble(col_1 = c("Government and Data Science", "Preceptor and Primer")) %>%
-  mutate(col_2 = ...)
+```{r exercise-0, exercise=TRUE}
+tibble(col_1 = c("Government and Data Science", "Preceptor and Primer"))
 ```
 
 ```{r exercise-0-hint, eval=FALSE}
@@ -116,9 +164,9 @@ tibble(col_1 = c("Government and Data Science", "Preceptor and Primer")) %>%
   mutate(col_2 = str_split(..., " and "))
 ```
 
-### 
+### Exercise 5
 
-Now append `str()` to the end of the pipe in order to to read the tibble contents.
+Now add `str()` to the end of the pipe in order to examine the tibble contents. 
 
 ```{r exercise-1b, exercise=TRUE}
 tibble(col_1 = c("Government and Data Science", "Preceptor and Primer")) %>%
@@ -131,7 +179,10 @@ tibble(col_1 = c("Government and Data Science", "Preceptor and Primer")) %>%
   str()
 ```
 
-### Baby chick weights
+## Creating columns using map_*
+###
+
+### Exercise 1
 
 Explore the `ChickWeight` dataset using `skim()`.
 
@@ -143,7 +194,9 @@ Explore the `ChickWeight` dataset using `skim()`.
 skim(...)
 ```
 
-Great! Now that we've oriented ourselves to the dataset, create a list-column of `weight`s using `mutate()`called `weight_groups`, grouping by `Diet` and `Time`.
+### Exercise 2
+
+Great! Now create a list-column of `weight`s using `mutate()`called `weight_groups`, grouping by `Diet` and `Time`.
 
 ```{r exercise-2, exercise=TRUE, eval=FALSE}
 ChickWeight %>%
@@ -157,9 +210,10 @@ ChickWeight %>%
   mutate(weight_groups = list(...))
 ```
 
-###
+### Exercise 3
 
-Use a `map_*` function  and `mutate()` to add a new column, `mean_weight`, which is the mean weight per row. Recall that each row corresponds to a unique combination of `Diet` and `Time`. As always, you should start by copy-pasting from the last answer.
+Use the `map_dbl` function  and `mutate()` to add a new column, `mean_weight`, which is the mean weight per row. Recall that each row corresponds to a unique combination of `Diet` and `Time`. As always, you should start by copy-pasting from the last answer.
+
 
 ```{r exercise-3, exercise=TRUE}
 
@@ -172,7 +226,7 @@ ChickWeight %>%
   mutate(mean_weight = map_dbl(weight_groups, ...))
 ```
 
-###
+### Exercise 4
 
 Now let's use `map_dbl()` to round each `mean_weight` to the nearest integer. Name this new column `rounded_mean`. 
 
@@ -188,23 +242,13 @@ ChickWeight %>%
   mutate(rounded_mean = map_dbl(mean_weight, ...))
 ```
 
-Note that this answer is probably overkill. Although you can use `map_dbl()`, you don't need to. You could have just done `round(mean_weight)`.
 
 
-```{r quiz-2}
-quiz(caption = "",
-  question("What would have happened if we had used map() instead of map_dbl() above?",
-           allow_retry = TRUE,
-           answer("The input would have looked for a list, rather than data of type double"),
-           answer("Nothing. Map() is just the general function for all map functions"),
-           answer("The output would have been a list, not a vector of type double", correct = TRUE, message = "Exactly! Try it out for yourself. This is why the world of map_* functions is so convenient. Functions such as unnest() can extract from list-columns, but there is no need to do so in this case."))
-  )
-```
+###
 
 
-### Annual GDP by country
-
-Let's reference the `gapminder` dataset. First, create a list-column named `gdpPercap_yearly` that lists the `gdpPercap` per year grouping by continent.
+### Exercise 5
+Now let's use the `gapminder` dataset. Create a list-column named `gdpPercap_yearly` that lists the `gdpPercap` per year grouping by continent.
 
 ```{r exercise-7a, exercise=TRUE, eval=FALSE}
 
@@ -216,9 +260,8 @@ gapminder %>%
   mutate(gdpPercap_yearly = list(...))
 ```
 
-###
-
-Now, build upon the previous question's code and, instead of taking the `gdpPercap`, calculate the *annual GDP of the country* in a new variable called `annual_gdp`.
+### Exercise 6
+Now, let's build upon the previous question's code. Instead of taking the `gdpPercap`, calculate the *annual GDP of the country* in a new variable called `annual_gdp`.
 
 ```{r exercise-8a, exercise=TRUE, eval=FALSE}
 gapminder %>%
@@ -232,7 +275,7 @@ gapminder %>%
   mutate(annual_gdp = list(gdpPercap * ...))
 ```
 
-###
+### Exercise 7
 
 What was the lowest GDP in each `year` x `continent` category? Create a new column named `lowest` of data type "double" that contains the lowest GDP per year/continent. Pay attention to the `map_*` function you use.
 
@@ -252,93 +295,14 @@ gapminder %>%
 
 ###
 
-What was the lowest GDP for a country in the Americas in 1992?
 
-```{r exercise-10a, exercise=TRUE}
-gapminder %>%
-  group_by(year, continent) %>%
-  mutate(annual_gdp = list(gdpPercap * pop)) %>%
-  mutate(lowest = map_dbl(annual_gdp, min))
-```
 
-```{r exercise-10a-hint, eval=FALSE}
-gapminder %>%
-  group_by(year, continent) %>%
-  mutate(annual_gdp = list(gdpPercap * pop)) %>%
-  mutate(lowest = map_dbl(annual_gdp, min)) %>%
-  filter(...)
-```
-
-```{r wealthmin}
-quiz(caption = "",
-  question("What was the lowest GDP for a South American country in 1992?",
-         answer("$8,719,537,248", correct = TRUE),
-         answer("$4,353,422,616"),
-         answer("$6,567,086,330"),
-         answer("$4,129,281,353"),
-         allow_retry = TRUE,
-         random_answer_order = TRUE))
-```
-
+## Custom Functions 
 ###
 
-Now let's examine what the highest GDP was per year/continent. Create a new column named `highest` of data type "double" that contains the lowest GDP per year/continent. Pay attention to the `map_*` function you use.
 
-```{r exercise-11a, exercise=TRUE, eval=FALSE}
-gapminder %>%
-  group_by(year, continent) %>%
-  mutate(annual_gdp = list(gdpPercap * pop)) %>%
-  mutate(highest = ...)
-```
+### Exercise 1
 
-```{r exercise-11a-hint, eval=FALSE}
-gapminder %>%
-  group_by(year, continent) %>%
-  mutate(annual_gdp = list(gdpPercap * pop)) %>%
-  mutate(highest = map_dbl(annual_gdp, ...))
-```
-
-###
-
-What was the highest GDP for an African country in 2007?
-
-```{r exercise-12a, exercise=TRUE}
-gapminder %>%
-  group_by(year, continent) %>%
-  mutate(annual_gdp = list(gdpPercap * pop)) %>%
-  mutate(highest = map_dbl(annual_gdp, max))
-```
-
-```{r exercise-12a-hint, eval=FALSE}
-gapminder %>%
-  group_by(year, continent) %>%
-  mutate(annual_gdp = list(gdpPercap * pop)) %>%
-  mutate(highest = map_dbl(annual_gdp, max)) %>%
-  filter(...)
-```
-
-```{r wealthmax}
-quiz(caption = "",
-  question("What was the highest GDP for an African country in 2007?",
-         answer("$2,204,242,423,150"),
-         answer("$447,970,942,205", correct = TRUE),
-         answer("$6,539,500,929,092"),
-         answer("$67,406,033,606"),
-         allow_retry = TRUE,
-         random_answer_order = TRUE))
-```
-
-## Custom Functions
-
-```{r builtinfunctions}
-quiz(caption = "",
-  question("What is the first step of writing a function?",
-         answer("Choose a name, then type <- function(){", message = "You shouldn't type function() until you have code that works with a real test case."),
-         answer("Create a real R object (or set of objects)", correct = TRUE, message = "You can then use the object to test your code."),
-         answer("Assign argument names to your function"),
-         answer("Write a help page that describes how your function will work."),
-         allow_retry = TRUE))
-```
 
 Here is a custom function we will call `foo`:
 
@@ -362,17 +326,22 @@ a
 ```
 
 ```{r quiz-1b, echo = FALSE}
-quiz(caption = "",
+quiz(
   question("",
          answer("1", correct = TRUE, message = "What happens in a function, stays in the function. foo() will not change the value of a outside of foo()."),
          answer("10"),
          answer("Running a will return an error."),
-         allow_retry = TRUE))
+         allow_retry = TRUE)
+  )
 ```
 
-### Grading homework
 
-To make this real, put yourself in the shoes of a teacher: You've given your students 10 homework assignments and announced that you will drop their lowest homework score. Their final grade will be the average score of the remaining homeworks.
+
+
+### Exercise 2
+
+
+Put yourself in the shoes of a teacher: You've given your students 10 homework assignments and announced that you will drop their lowest homework score. Their final grade will be the average score of the remaining homeworks.
 
 To make your life easier, you want to write an R function that will take a vector of 10 homework scores and return a final grade. 
 
@@ -383,7 +352,10 @@ Create an object named `x` that contains the vector `c(100, 100, 100, 100, 100, 
 
 ```
 
-###  
+
+
+### Exercise 3
+
 
 Use `sum()`, `min()`, `/`, `9` and parentheses to calculate the final grade for student `x`.
 
@@ -395,7 +367,9 @@ x <- c(100, 100, 100, 100, 100, 100, 100, 100, 100, 90)
 (sum(x) - min(x)) / ...
 ```
 
-###  
+
+### Exercise 4
+
 
 Save the code below as a function named `grade`.
 ```{r grade-setup}
@@ -412,9 +386,11 @@ grade <- function(){
 }
 ```
 
-###  
 
-At the moment, your `grade()` function is reusable but not _generalizable_. Each time you call `grade()` it computes the final grade of the vector `x` that contains `c(100, 100, 100, 100, 100, 100, 100, 100, 100, 90)`. We'd like to use `grade()` with new vectors that have new values.
+### Exercise 6
+
+
+Each time you call `grade()` it computes the final grade of the vector `x` that contains `c(100, 100, 100, 100, 100, 100, 100, 100, 100, 90)`. We'd like to use `grade()` with new vectors that have new values.
 
 Make `x` a formal argument.
 
@@ -430,9 +406,12 @@ grade <- function(...){
 }
 ```
 
-###   
+
+### Exercise 7
+
 
 Calculate the final grade of the vector `c(100, 90, 90, 90, 90, 90, 90, 90, 90, 80)`. 
+
 ```{r make-grade-setup}
 grade <- function(x){ 
   (sum(x) - min(x)) / 9
@@ -444,102 +423,27 @@ grade <- function(x){
 ```
 
 ```{r make-grade-hint, eval=FALSE}
-# Use the provided vector!
+Use the provided vector!
 ```
 
-```{r recap}
-quiz(caption = "",
-     question("What is the final grade you calculated above?",
-              answer("91.11", correct = TRUE),
-              answer("90.00"),
-              answer("92.33"),
-              answer("89.91"),
-              random_answer_order = TRUE,
-              allow_retry = TRUE),
-  question("Which is not a step of the best practice workflow for writing functions?",
-         allow_retry = TRUE, random_answer_order = TRUE,
-         answer("Create a real R object (or set of objects) to use with your function"),
-         answer("Write code that works with the real object(s)"),
-         answer("Wrap the code in `function()`"),
-         answer("Assign the names of your real objects as argument names to the function"),
-         answer("Predict how the function should be written and try it out.", correct = TRUE)))
-```
 
+
+
+
+## Using `runif()` and `rnorm()`
 ###
 
-Let's write a function that grades by counting a student's highest score twice and then taking an average of the 11 scores.
+`runif()` and `rnorm() generate a random uniform and normal distribution, respectively. 
 
-```{r quiz-2c, echo = FALSE}
-question("Do you have a test vector that you can use?",
-         answer("Test vector? We don't need no stinking test vector.", 
-                message = "Yes you do."),
-         answer("Yes, we can reuse the vector named x.", correct=TRUE),
-         allow_retry = TRUE,
-         random_answer_order = TRUE)
-```
 
-###
-
-Write a piece of code that uses `max()` to double count the highest score in `x` and then takes the average of the 11 results.
-
-```{r e3, exercise=TRUE}
-x <- c(100, 100, 100, 100, 100, 100, 100, 100, 100, 90)
-```
-
-```{r e3-hint, eval=FALSE}
-(sum(x) + max(x)) / ...
-```
-
-###
-
-Wrap your code in `function()` and save it to the name `grade2`. Then define the argument(s) for the function.
-
-```{r e4, exercise=TRUE}
-(sum(x) + max(x)) / 11
-```
-
-```{r e4-hint, eval=FALSE}
-grade2 <- function(x){
-  ...
-}
-```
-
-```{r gradingquiz}
-quiz(caption = "",
-     question("What does grade2(x) return?",
-     answer("99.09", correct = TRUE),
-     answer("91.11"),
-     answer("95.45"),
-     answer("96.91"),
-     allow_retry = TRUE,
-     random_answer_order = TRUE))
-```
-
-### Functions using `runif()` and `rnorm()`
-
-Remember `runif()` and `rnorm()` from Chapter 2? These two functions generate a random uniform and normal distribution, respectively. 
-
-```{r rvs}
-quiz(caption = "",
-  question("Select all that apply: Which of the following default values are correct?",
-           answer("runif() has the following default values: n=1, min=0, max=1"),
-           answer("runif() has the following default values: min=0, max=1", correct = TRUE),
-           answer("rnorm() has the following default values: mean=0, sd=1", correct = TRUE),
-           answer("rnorm() has the following default values: n=1, mean=0, sd=1"),
-           allow_retry = TRUE))
-```
+### Exercise 1
 
 Write a custom function named `add_rvs()` that adds together 1 random variable generated by `runif()` and 1 random variable generated by `rnorm()`. Use `n=1` and the default values for the other arguments.
 
-```{r rvs_q, exercise=TRUE, eval=FALSE}
-add_rvs <- function(){
-  ...
-}
+```{r rvs_q, exercise=TRUE}
+
 ```
 
-```{r rvs_q-hint-1, eval=FALSE}
-# You can add random variables like so: runif(1) + rnorm(1)
-```
 
 ```{r rvs_q-hint-2, eval=FALSE}
 add_rvs <- function(){
@@ -547,12 +451,12 @@ add_rvs <- function(){
 }
 ```
 
+### Exercise 2
+
 What if you wanted to customize `n`? Add a formal argument `n` to your `add_rvs()` function with a default value of 1.
 
-```{r rvs_q2, exercise=TRUE, eval=FALSE}
-add_rvs <- function(){
-  ...
-}
+```{r rvs_q2, exercise=TRUE}
+
 ```
 
 ```{r rvs_q2-hint, eval=FALSE}
@@ -561,203 +465,43 @@ add_rvs <- function(n = 1){
 }
 ```
 
-We want to call `add_rvs()` twenty times. That is a lot of manual function calling! Let's make the function `replicate()` do the work for us instead. Call `add_rvs()` twenty times using `replicate()`. Use the default value of the `n` argument in `add_rvs()`.
 
-```{r replicate, exercise=TRUE, eval=FALSE}
-replicate(...)
+
+### Exercise 3
+
+
+Lets say we want to call `add_rvs()` twenty times. Call `add_rvs()` twenty times using `replicate()`. Use the default value of the `n` argument in `add_rvs()`.
+
+
+
+```{r replicate-setup}
+add_rvs <- function(n = 1){
+  runif(n) + rnorm(n)
+}
+```
+
+```{r replicate, exercise=TRUE}
+
+
 ```
 
 ```{r replicate-hint, eval=FALSE}
 replicate(20, ...)
-# Remember to use the parentheses when calling a function from inside replicate()!
+Remember to use the parentheses when calling a function from inside replicate()!
+  
+  # BG: better hint here
 ```
 
-## Argument Specifications and Default Values
 
-```{r quiz-3b}
-quiz(caption = "",
-  question("Which of the following statements is NOT true about providing values for formal arguments in functions?",
-           allow_retry= TRUE,
-           random_answer_order = TRUE,
-           answer("Never does the order that you provide formal arguments matter", correct = TRUE),
-           answer("It is best practice to explicitly write out each argument name followed by an equal sign and its value"),
-           answer("If you leave out argument names, R will match your values to arguments in the order that they are listed"),
-           answer("If you do not provide a value and the function contains a default value, the default value is used")),
-  question("Which method(s) can you use to match values to arguments? (Check all that apply.)",
-         answer("Complete names (e.g. na.rm = TRUE)", correct = TRUE),
-         answer("Partial names (e.g. na = TRUE)", correct = TRUE),
-         answer("Numbers (e.g. 2 = TRUE)"),
-         answer("Position (e.g. TRUE)", correct = TRUE),
-         allow_retry = TRUE, type = "multiple", 
-         incorrect = "Did you check _every_ method that works?",
-         correct = "Good job! R can match values to arguments in three ways, but some of these methods are more foolproof then others."))
-```
 
+## Testing
 ###
 
-What will the following code return?
+Testing is very useful when you are going to run a certain function a lot.
 
-```{r test-1, eval=FALSE, echo=TRUE}
-f <- function(a, b, c){
-  a
-  b
-  c
-}
-f(1, 2, 3)
-```
 
-```{r quiz-2b}
-question("",
-         answer("1"),
-         answer("2"),
-         answer("3", correct =TRUE, message = "A function will return the result of its *last* line."),
-         answer("A vector that contains 1, 2, and 3"),
-         answer("An error"),
-         allow_retry = TRUE)
-```
-
-###
-
-It's time to put it all together. 
-
-Use the code block below to develop a function named `l2` that calculates the Euclidean distance, or L~2~ norm ($\|x||_{2}$), of a vector of numbers named `x`. The L~2~ norm is the square root of the sum of the squared values in the vector, i.e.
-
-$$\| x \|_{2} = \sqrt{\sum_{i = 1}^{n} x_{i}^{2}}$$
-
-When you are finished, reduce your code to just the definition of your function.
-
-```{r e5, exercise=TRUE}
-
-```
-
-```{r e5-solution}
-l2 <- function(x){
-  sqrt(sum(x^2))
-}
-```
-
-### Default Values and Argument Positions
-
-Consider this brilliant function:
-
-```{r foo-more, echo=TRUE}
-foo <- function(aaa, abb, abc){
-  c(aaa, abb, abc)
-}
-```
-
-```{r no-args, echo = FALSE}
-question("What will `foo()` return?",
-         answer('[1] "aaa" "abb" "abc"'),
-         answer("An error", correct = TRUE, message = "`foo` will not be able to find a value for `aaa` (or the rest)."),
-         allow_retry = TRUE)
-```
-
-Let's make `foo` even more brilliant:
-
-```{r, echo=TRUE}
-foo <- function(aaa = 1, abb = 2, abc = 3){
-  c(aaa, abb, abc)
-}
-```
-
-```{r default-args}
-quiz(caption = "",
-  question("Now what will `foo()` return?",
-         answer('[1] "aaa" "abb" "abc"'),
-         answer('[1] 1 2 3', correct = TRUE, message = "An argument with a default value is optional, R will use the default value if you do not provide one."),
-         answer("An error"),
-         allow_retry = TRUE),
-question("Which of these could you run to see the names and default values of `foo`'s arguments?",
-         answer("`foo`"),
-         answer("`?foo`"),
-         answer("`formals(foo)`"),
-         answer("`args(foo)`"),
-         answer("All of the above.", correct = TRUE, message = "Each of these will return output that contains `foo`'s argument names and default values (somewhere in the output)."),
-         incorrect = "Is that the only way?",
-         allow_retry = TRUE),
-question("What will `foo(0)` return?",
-         answer("[1] 1 2 3"),
-         answer("[1] 0 2 3", correct = TRUE, message = "If you do not provide an argument name in your call, R will match your value to the first unmatched argument name."),
-         answer("[1] 1 0 3"),
-         answer("[1] 1 2 0"),
-         answer("[1] 0 0 0"),
-         answer("An error"),
-         allow_retry = TRUE),
-question("What will `foo(0, 5)` return?",
-         answer("[1] 1 2 3"),
-         answer("[1] 0 5 3", correct = TRUE, message = "I think you have the hang of position matching."),
-         answer("[1] 0 5 0"),
-         answer("[1] 0 5 5"),
-         answer("An error"),
-         allow_retry = TRUE),
-question("What will `foo(aaa = 0, abc = 5)` return?",
-         answer("[1] 1 2 3"),
-         answer("[1] 0 5 3"),
-         answer("[1] 0 5 0"),
-         answer("[1] 0 2 5", correct = TRUE, message = "Using complete argument names is the easiest way to avoid an error (and to write comprehensible code). But what if you use a partial argument name?"),
-         answer("An error"),
-         allow_retry = TRUE),
-question("What will `foo(aa = 0)` return?",
-         answer("[1] 1 2 3"),
-         answer("[1] 0 2 3", correct = TRUE, message = "You do not need to spell out the full argument name, so long as you provide enough of the name to uniquely identify the argument. Here `aa` could only be the beginning of the `aaa` argument."),
-         answer("[1] 0 0 0"),
-         answer("An error"),
-         allow_retry = TRUE),
-question("What will `foo(a = 0)` return?",
-         answer("[1] 1 2 3"),
-         answer("[1] 0 2 3"),
-         answer("[1] 0 0 0"),
-         answer("An error", correct = TRUE, message = "Here `a` does not uniquely match an argument name: it is the beginning of all three argument names. R isn't psychic, so it won't guess which argument you meant. Instead R returns an error. It's the right thing to do because it lets you fix your code."),
-         allow_retry = TRUE))
-```
-
-###
-
-Now for some dark magic:
-
-```{r foo-more-1, echo=TRUE}
-foodoo <- function(...){
-  c(...)
-}
-```
-
-```{r dots-1, echo = FALSE}
-quiz(caption = "",
-  question("What will `foodoo(1, 2, 3)` return?",
-         answer("[1] 1 2 3", correct = TRUE, message = "`...` is a special mechanism for passing arguments. `...` will match any argument not otherwise matched and pass those arguments on as a group. This is a convenient way to pass a set of arguments through to a function in the function body."),
-         answer("An error."),
-         answer("Oh my goodness! You've broken R!"),
-         allow_retry = TRUE),
-question("What will `foodoo(a = 1, b = 2, c = 3)` return?",
-         answer("[1] 1 2 3"),
-         answer("[1] 1 2 3 _but with the names a b c above the values_", correct = TRUE, message = "If you provide names to your values, `...` will capture those as well and pass them on. So here, our code essentially runs `c(a = 1, b = 2, c = 3)`."),
-         answer("An error."),
-         allow_retry = TRUE))
-```
-
-###  
-
-Here is one last wrinkle. Suppose we rewrite `foodoo` slightly:
-
-```{r foo-more-2, echo=TRUE}
-foodoo <- function(a, ...){
-  c(...)
-}
-```
-
-```{r dots-3, echo = FALSE}
-quiz(caption = "",
-  question("What will `foodoo(a = 1, b = 2, c = 3)` return?",
-         answer("[1] 1 2 3 with the names a b c above the values"),
-          answer("[1] 2 3 with the names b c above the values", correct = TRUE, message = "Remember that `...` only captures _unmatched_ values. Now that `a` is a formal argument, `a = 1` will be matched to it, leaving `b = 2` and `c = 3` to be captured and passed on."),
-         answer("An error."),
-         allow_retry = TRUE))
-```
-
-## Formal Testing
-
-### Unit tests with `testthat`
+### Exercise 1
+We use the `return()` function whenever we want to return a value that is not the last line of the code body.
 
 ```{r is-1, echo=TRUE, eval=FALSE}
 impatient_square <- function(x){
@@ -766,36 +510,10 @@ impatient_square <- function(x){
 }
 ```
 
-```{r return-quiz, echo = FALSE}
-quiz(caption = "",
-  question("Which value will `impatient_square(2)` return?",
-         answer("2", correct = TRUE, message = "R stops executing `impatient_square()` and returns `x` when R encounters `return(x)`. It doesn't matter that `return(x)` is not the last line of the function."),
-         answer("4", message = "R stops executing `impatient_square()` when it encounters `return(x)`. As a result, R does not evaluate `x^2`."),
-         allow_retry = TRUE),
-  question("When should you use return()?",
-           answer("Whenever you want your function to return a value from the last line of the code body", message = "Remember, R functions automatically return the last value."),
-           answer("Whenever you want to return a value that is not the last line of the code body", correct = TRUE, message = "Correct! This can either be for diagnosis purposes when debugging or for unusual control flow cases in general"),
-           allow_retry = TRUE))
-```
-
 ###
 
-```{r is-2, eval=FALSE, echo=TRUE}
-immovable_square <- function(x){
-  stop("I refuse to proceed.")
-  x^2
-}
-```
 
-```{r stop-quiz}
-quiz(caption = "",
-  question("What does `immovable_square(2)` return?",
-         answer("4", message = 'R will stop executing `immovable_square()` and throw an error when it comes to `stop("I refuse to proceed.")`.'),
-         answer("Error in immovable_square(2) : I refuse to proceed.", correct = TRUE, message = 'R will stop executing `immovable_square()` and throw an error when it comes to `stop("I refuse to proceed")`. The error message will look just like this answer; R inserts the message that you pass as a character string to `stop()`.'),
-         allow_retry = TRUE))
-```
-
-###
+### Exercise 2
 
 This function is called `angry()`. Add a line of code that throws the message "Wrong! I am angry!" using `stop()`.
 
@@ -812,7 +530,9 @@ angry <- function(x){
 }
 ```
 
-Nice, now we have an appropriately angry function that always yells at us. This isn't particularly useful. Make it so that `angry()` only yells at us if the x input is not a character. Also change the error message to something more useful: "x must be a character." This method is also known as the "if then stop".
+### Exercise 3
+
+Now make it so that `angry()` only yells at us `if` the x input is not a character. Also change the error message to something more useful: "x must be a character." This method is also known as the "if then stop".
 
 ```{r ifthenstop, exercise=TRUE}
 angry <- function(x){
@@ -829,7 +549,7 @@ angry <- function(x){
 }
 ```
 
-###
+### Exercise 4
 
 What if we wanted to incorporate `testthat`? Use the `showfailure()` function to see what happens when we plug in `x = 1` to `angry()`.
 
@@ -851,73 +571,10 @@ show_failure(...)
 show_failure(angry(x=...))
 ```
 
-Run the following function, which we've pre-defined behind the scenes.
+## Handling NAs
+###
 
-```{r mysteryfunc-setup}
-library(testthat)
-mystery <- function(x = 15){
-  if(!is.numeric(x)){
-    stop("x must be a number.")
-  }
-  if(x <= 10){
-    stop("x must be greater than 10.")
-  }
-  if(x == 13){
-    stop("13 is an unlucky number. Choose a different number.")
-  }
-  sqrt(x)
-}
-```
-
-```{r mysteryfunc, exercise=TRUE, eval=FALSE}
-mystery()
-```
-
-```{r mysteryfunction}
-quiz(
-  question("Select all that apply. Which of the following happens when you run mystery()?",
-           answer("When you run mystery(13), you get an error that says: \"13 is an unlucky number. Choose a different number.\"", correct = TRUE),
-           answer("When you run mystery(), you get no error.", correct = TRUE),
-           answer("When you run mystery(10), you get no error"),
-           answer("When you run mystery(\"a\"), you get an error that says: \"x must be a number.\"", correct = TRUE),
-           allow_retry = TRUE))
-```
-
-```{r mysteryfunc2-setup}
-library(testthat)
-mystery <- function(x = 15){
-  if(!is.numeric(x)){
-    stop("x must be a number.")
-  }
-  if(x <= 10){
-    stop("x must be greater than 10.")
-  }
-  if(x == 13){
-    stop("13 is an unlucky number. Choose a different number.")
-  }
-  sqrt(x)
-}
-```
-
-```{r mysteryfunc2, exercise=TRUE, eval=FALSE}
-test_that('invalid args are detected', {
-  expect_error(mystery(-1))
-  expect_error(mystery(15))
-})
-```
-
-```{r mysteryfunction2}
-quiz(
-  question("When you run the following formal unit test, what do you get?",
-           answer("Nothing. This means the test worked as expected and no news is good news."),
-           answer("Error: Test failed: 'invalid args are detected' * `mystery(15)` did not throw an error.", correct = TRUE),
-           answer("Nothing. However, no result is a bad result and we have to peek under the hood further."),
-           answer("Error: Test failed: 'invalid args are detected' * `mystery(-1)` did not throw an error."),
-           allow_retry = TRUE,
-           random_answer_order = TRUE))
-```
-
-### Handling NAs
+### Exercise 1
 
 ```{r if-quiz, echo = FALSE}
 question("Which describes `if`'s behavior? (Check all that apply).",
@@ -927,6 +584,8 @@ question("Which describes `if`'s behavior? (Check all that apply).",
          answer("`if` always executes all of the code that follows it.", message = "`if` will always execute the logical test that appears in parentheses behind `if`. However, `if` will only execute the code that appears after the logical test if the logical test returns TRUE."),
          allow_retry = TRUE)
 ```
+
+### Exercise 2
 
 Many data sets use their own symbols to represent missing values. For example, NOAA will often use -99 to represent missing values in weather data sets. Let's write a function that checks whether a value is -99, and if so replaces the value with NA, like this:
 
@@ -942,7 +601,7 @@ clean(1)
 clean(-99)
 ```
 
-###  
+### Exercise 3
 
 Add an `if` statement to the beginning of `clean()`. Your statement should assign NA to x if x equals -99.
 
@@ -964,45 +623,16 @@ clean <- function(x){
 }
 ```
 
-```{r else-quiz, echo = FALSE}
-question("Which describes `else`? (Check all that apply).",
-         answer("R interprets `else` as a continuation of the `if` statement that immediately precedes it.", correct = TRUE, message = "`else` always follows an `if` statement (if not, `else` returns an error), and R always sees the combined `if` and `else` statements as a single statement."),
-         answer("Unlike `if`, `else` does not take a logical test.", correct = TRUE),
-         answer("Like `if`, `else` takes a piece of code.", correct = TRUE),
-         answer("`else` executes the piece of code if the `if` condition returns FALSE.", correct = TRUE),
-         answer("`else` does not execute the piece of code if the `if` condition returns TRUE.", correct = TRUE, message = "Think of a combined `if` `else` statement as a complete description: if the logical test at the start of the statement returns TRUE, R will run the code that follows `if` (but not the code that follows `else`). If the condition returns FALSE, R will run the code that follows `else` (but not the code that follows `if`)."),
-         allow_retry = TRUE)
-```
+<!-- DK: Given that we never use `stopifnot()`, we are they here? Why are they in the chapter? -->
 
-### Combining `stopifnot()` and  conditional statements
+## Using `stopifnot()`
+###
 
-Use `if` and `is.null()` to add a `stop()` call at the beginning of `clean()`. The command should return the error message `"x is NULL"` whenever x is NULL. 
+### Exercise 1
 
-```{r stop, exercise=TRUE}
-clean <- function(x){
-  if(x == -99) return(NA)
-  if(x == ".") return(NA)
-  if(x == "NaN") return(NA)
-  x
-}
-```
-
-```{r stop-solution}
-clean <- function(x){
-  if(is.null(x)) stop("x is NULL")
-  if(x == -99) return(NA)
-  if(x == ".") return(NA)
-  if(x == "NaN") return(NA)
-  x
-}
-```
 
 ```{r stopifnot-quiz, echo = FALSE}
 quiz(
-  question('Which of these does the equivalent of `if(x < 0) stop("x is less than zero")`?',
-         answer('`stopifnot(x < 0)`', message = "Good guess! But the function isn't called `stopif()`; it's called `stopifnot()`."),
-         answer('`stopifnot(x >= 0)`', correct = TRUE, message = "`stopifnot()` stops if a condition is _not_ met, which is slightly different than `if` + `stop()`."),
-         allow_retry = TRUE),
   question("How is stopifnot() different from if` + stop()?",
            allow_retry = TRUE,
            random_answer_order = TRUE,
@@ -1011,31 +641,8 @@ quiz(
            answer("stopifnot() cannot take logical arguments")))
 ```
 
-###  
 
-Replace the `if` + `stop()` statement in `clean()` with `stopifnot()`. 
-
-```{r stopifnot, exercise=TRUE}
-clean <- function(x){
-  if(is.null(x)) stop("x is NULL")
-  if(x == -99) return(NA)
-  if(x == ".") return(NA)
-  if(x == "NaN") return(NA)
-  x
-}
-```
-
-```{r stopifnot-solution}
-clean <- function(x){
-  stopifnot(!is.null(x))
-  if(x == -99) return(NA)
-  if(x == ".") return(NA)
-  if(x == "NaN") return(NA)
-  x
-}
-```
-
-###
+### Exercise 2
 
 Rewrite the below function using `case_when()`.
 
@@ -1079,33 +686,10 @@ foo2 <- function(x){
 }
 ```
 
-###
 
-Rewrite the multi-part version of `clean()` to use `case_when()`, which will allow `clean()` to handle vectors. Retain each case. Assume where necessary that `clean()` will only work with real numbers.
 
-```{r when, exercise=TRUE}
-clean <- function(x){
-  if(x == -99) NA 
-  else if(x == ".") NA
-  else if(x == "") NA
-  else if(x == "NaN") NA
-  else x
-}
-```
 
-```{r when-hint, eval=FALSE}
-clean <- function(x){
-  case_when(
-    x == -99 ~ NA_real_, 
-    x == "." ~ NA_real_,
-    x == "" ~ NA_real_,
-    x == "NaN" ~ NA_real_,
-    TRUE ~ ...
-  )
-}
-```
-
-###
+### Exercise 3
 
 ```{r foo-10, eval=FALSE, echo=TRUE}
 foo <- function(x){
@@ -1126,7 +710,7 @@ quiz(
          allow_retry = TRUE))
 ```
 
-###
+### Exercise 4
 
 ```{r missing_code_chunk_name, eval=FALSE, echo=TRUE}
 clean <- function(x){
@@ -1147,59 +731,16 @@ quiz(
 ```
 
 
-Replace the two `if` statements below with a single statement that tests whether x is `-99` or `"."` without throwing error messages.
 
-```{r or, exercise=TRUE}
-clean <- function(x){
-  stopifnot(!is.null(x))
-  if(x == -99) return(NA)
-  if(x == ".") return(NA)
-  x
-}
-```
 
-```{r or-solution}
-clean <- function(x){
-  stopifnot(!is.null(x))
-  if(x == -99 || x == ".") return(NA)
-  x
-}
-```
+## Practice: Monthly Temperatures 
+###
 
-###  
 
-```{r clean-5, eval=FALSE, echo= TRUE}
-clean <- function(x){
-  stopifnot(!is.null(x))
-  if(x == -99 || x == ".") return(NA)
-  x
-}
-```
 
-```{r vector-quiz, echo = FALSE}
-question("What will `clean(c(-99, 0, 1))` return?",
-         answer("NA 0 1", message = "The logical test will only consider the first value of the vector x, which here contains c(-99, 0, 1). Since that value is -99, the logical test will return TRUE and R will execute the code `return(NA)`, which returns a single NA."),
-         answer("NA _with_ a warning message", message = "You certainly would get a warning message if your logical test used |, which will pass a vector of TRUEs and FALSEs to if, triggering the message. However, || will only pass on a single TRUE or FALSE."),
-         answer("NA _without_ a warning message", correct = TRUE),
-         answer("an error"),
-         allow_retry = TRUE)
-```
+#### Exercise 1
 
-## List-columns and `map_*` functions with custom and anonymous functions
-
-### Monthly temperatures
-
-Explore the `airquality` dataset using `skim()`.
-
-```{r exercise-1a, exercise=TRUE}
-
-```
-
-```{r exercise-1a-hint, eval=FALSE}
-skim(...)
-```
-
-Create a list-column of monthly temperatures called `monthly_temp`, grouping by `Month`.
+Using the data set `airquality`, create a list-column of monthly temperatures called `monthly_temp`, grouping by `Month`.
 
 ```{r exercise-2a, exercise=TRUE}
 
@@ -1211,11 +752,13 @@ airquality %>%
    mutate(monthly_temp = list(...))
 ```
 
-###
+
+
+#### Exercise 2
+
 
 ```{r quiz-4}
-quiz(caption = "",
-  question("Which of the following possibilities for filling in the blank is syntactically correct and converts from Fahrenheit to Celsius?",
+quiz(question("Which of the following possibilities for filling in the blank is syntactically correct and converts from Fahrenheit to Celsius?",
            answer("(. - 32) * 5/9)"),
            answer("(- 32 * 5/9)"),
            answer("~ (. - 32) * 5/9)", correct = TRUE),
@@ -1223,7 +766,9 @@ quiz(caption = "",
 )
 ```
 
-###
+
+#### Exercise 3
+
 
 Use a `map_*` function to convert all of the temperatures in `monthly_temp` from Fahrenheit to Celsius, creating a new variable `temp_celsius`. Hint: Use the formula from the quiz above!
 
@@ -1241,6 +786,10 @@ airquality %>%
   mutate(temp_celsius = map(monthly_temp, ...))
 ```
 
+
+#### Exercise 4
+
+
 Oops! The scientists made a mistake in which all of the temperatures were mis-recorded. For temperatures recorded at or below 20 degrees Celsius, the true temperature is actually 1 degree Celsius lower. For temperatures recorded as higher than 20 degrees Celsius, the true temperature is actually 3 degrees Celsius higher.
 
 Write an anonymous function that rectifies the scientists' mistake by using `case_when()`.
@@ -1256,7 +805,8 @@ function(x)
             x > 20 ~ x + 3)
 ```
 
-###
+
+#### Exercise 5
 
 Now use this function along with `map()`, swapping out the function code after the `~` in the `map()` argument.
 
@@ -1276,41 +826,14 @@ airquality %>%
   mutate(temp_celsius = map(temp_celsius, ~ case_when(...)))
 ```
 
+
+
+## Coin Flipping exercise
 ###
 
-Now let's get a sense of the "corrected" data. Sort the temperatures from coldest to hottest each month.
+Let's create a function, `coin_flip()`, that takes an input `n` of the number of times to flip a coin and adds up the number of Tails.
 
-```{r exercise-6a, exercise=TRUE, eval=FALSE}
-airquality %>%
-  group_by(Month) %>%
-  mutate(monthly_temp = list(Temp)) %>%
-  mutate(temp_celsius = map(monthly_temp, ~ (. - 32)* 5/9)) %>%
-  mutate(temp_celsius = map(temp_celsius, ~ case_when(. <= 20 ~ . - 1,
-            . > 20 ~ . + 3)))
-```
-
-```{r exercise-6a-solution}
-airquality %>%
-  group_by(Month) %>%
-  mutate(monthly_temp = list(Temp)) %>%
-  mutate(temp_celsius = map(monthly_temp, ~ (. - 32)* 5/9)) %>%
-  mutate(temp_celsius = map(temp_celsius, ~ sort(case_when(. <= 20 ~ . - 1,
-            . > 20 ~ . + 3))))
-```
-
-```{r quiz-5}
-quiz(
-  question("What is the coldest temperature in July?",
-           answer("25.78 degrees Celsius", correct = TRUE, message = "Great job! Now let's move on to another practice exercise."),
-           answer("30.33 degrees Celsius"),
-           answer("12.33 degrees Celsius"),
-           answer("26.33 degrees Celsius"))
-)
-```
-
-### Coin Flipping
-
-Let's say you are trying to create a function, `coin_flip()`, that takes an input `n` of the number of times to flip a coin and adds up the number of Tails.
+### Exercise 1
 
 Let's start by creating a minimally viable function called `starter_coin()` that flips one coin once and prints out `H` or `T`. Remember: You can paste vectors as an argument into `sample()`!
 
@@ -1322,7 +845,7 @@ Let's start by creating a minimally viable function called `starter_coin()` that
 starter_coin <- function() sample(c("H", "T"), ...)
 ```
 
-###
+### Exercise 2
 
 Now let's take it up a notch and add in a formal argument `n` that specifies the number of times to flip the coin.
 
@@ -1334,7 +857,7 @@ Now let's take it up a notch and add in a formal argument `n` that specifies the
 starter_coin <- function(n) sample(c("H", "T"), n, replace = ...)
 ```
 
-###
+### Exercise 3
 
 Add in a sensible `stopifnot()` to your function that checks whether the input `n` is numeric.
 
@@ -1349,7 +872,7 @@ starter_coin <- function(n){
 }
 ```
 
-###
+### Exercise 4
 
 Great! Now we should be able to create `coin_flip()`, which counts the number of Tails for `n` flips. Set the default value of `n` to 1.
 
@@ -1360,7 +883,7 @@ coin_flip <- function(n = 1){
 ```
 
 ```{r coin4-hint-1, eval=FALSE}
-# Use the code from starter_coin() and sum().
+Use the code from starter_coin() and sum().
 ```
 
 ```{r coin4-hint-2, eval=FALSE}
@@ -1370,7 +893,7 @@ coin_flip <- function(n = 1){
 }
 ```
 
-###
+### Exercise 5
 
 Now let's create a function called `five_flips` that counts how many Tails occur in five coin flips, or the equivalent of `coin_flip(5)`, but calls it `n` times.
 * Set the default value of `n` separate flips to 1.
@@ -1382,11 +905,11 @@ five_flips <- function(n = 1){
 ```
 
 ```{r coin5-hint-1, eval=FALSE}
-# The map function you are looking for is map_int().
+The map function you are looking for is map_int().
 ```
 
 ```{r coin5-hint-2, eval=FALSE}
-# rep(x,n) means that you are flipping x coins n times.
+rep(x,n) means that you are flipping x coins n times.
 ```
 
 ```{r coin5-hint-3, eval=FALSE}
@@ -1396,21 +919,11 @@ five_flips <- function(n = 1){
 }
 ```
 
-###
 
-Create a tibble named `x` with one variable: `flips`. `flips` is a list column of 10 observations, each element of which is result of flipping 5 coins 10 times. 
 
-```{r coin-quiz}
-quiz(
-  question("Select all that apply: Which of the following is equivalent to flipping 5 coins 10 times?",
-           answer("five_flips(10)", correct = TRUE, message = "Use this function for the next exercise!"),
-           answer("five_flips(5, 10)"),
-           answer("five_flips(5)"),
-           allow_retry = TRUE,
-           random_answer_order = TRUE))
-```
+### Exercise 6
 
-Create `x` as specified above. Make sure to use the correct `map_*` function.
+Create a tibble named `x` with one variable: `flips`. `flips` is a list column of 10 observations, each element of which is result of flipping 5 coins 10 times.  Make sure to use the correct `map_*` function.
 
 ```{r coin7, exercise=TRUE, eval=FALSE}
 x <- tibble(flips = ...)
@@ -1420,49 +933,16 @@ x <- tibble(flips = ...)
 x <- tibble(flips = map(rep(10, 10), ...))
 ```
 
+
+
+
+## Random variables
 ###
 
-Now we are interested in finding the `mean()`, `min()`, and `max()` of each row. Use the appropriate `map_*` functions to create new columns named `average`, `minimum`, and `maximum`, using the aforementioned functions respectively.
+### Exercise 1
 
-```{r coin8-hint, eval=FALSE}
-x <- tibble(flips = map(rep(10, 10), five_flips))
-x %>%
-  mutate(average = map_dbl(...),
-         minimum = map_dbl(...),
-         maximum = map_dbl(...))
-```
 
-###
-
-That seems kind of clunky to create three new columns. What if I wanted to return a single new list-column named `descriptive_stats` that contained a list of the mean, minimum, and maximum values? Time to write a function!
-
-```{r coin9-setup}
-x <- tibble(flips = map(rep(10, 10), five_flips))
-stat_ops <- function(x){
-  a <- mean(x)
-  b <- min(x)
-  c <- max(x)
-  return(c(a,b,c))
-}
-```
-
-```{r coin9, exercise=TRUE, eval=FALSE}
-x %>%
-   mutate(descriptive_stats = ...)
-```
-
-```{r coin9-hint, eval=FALSE}
-x %>%
-   mutate(descriptive_stats = map(flips, ...))
-```
-
-###
-
-### Random Variables, Pt. 2
-
-Remember when you wrote a function called `add_rvs()` that added two random variables together?
-
-Let's create `biggest()`, which takes the larger of two random variables. Use `n = 1` for both random variables.
+Let's create a function `biggest()`, which takes the larger of two random variables. Use `n = 1` for both random variables.
 
 ```{r biggest1, exercise=TRUE, eval=FALSE}
 biggest <- function(){
@@ -1478,7 +958,8 @@ biggest <- function(){
 
 ```
 
-We're curious as to whether the uniformly distributed random variable or the normally distributed random variable is larger. 
+### Exercise 2
+
 Modify `biggest()` so that it prints out "Uniform" if the larger variable is the uniformally distributed random variable, and "Normal" if otherwise.
 * Use `case_when()` with `TRUE ~ "Tie"`.
 * Remember that `runif()` and `rnorm()` generate *random* values every time they are called...
@@ -1508,7 +989,7 @@ biggest <- function(){
 }
 ```
 
-###
+### Exercise 3
 
 We'd like for `biggest()` to return a vector of two elements: The name of the distribution of the larger random variable and its value. If the two values are identical, we'd like for the function to return "Tie" and the value of one of the variables (since they are identical).
 
@@ -1532,9 +1013,9 @@ biggest <- function(){
 }
 ```
 
-###
+### Exercise 4
 
-Now we want to run `biggest()` to be run multiple times. Let's create a new function named `repeat_biggest()` that does so by calling `biggest()` `n` number of times.
+Let's create a new function named `repeat_biggest()` that does so by calling `biggest()` `n` number of times.
 * Use `replicate()` to call the function multiple times.
 
 ```{r newfunc, exercise=TRUE, eval=FALSE}
@@ -1549,19 +1030,15 @@ repeat_biggest <- function(n = 1){
 }
 ```
 
-Create a tibble named `rvs` with one variable: `trials`. `trials` is a list column of 25 observations, each element of which is a result of calling `repeat_biggest(3)`.
-
-```{r lastq, exercise=TRUE, eval=FALSE}
-rvs <- tibble(...)
-```
-
-```{r lastq-hint, eval=FALSE}
-rvs <- tibble(trials = map(rep(3, 25), ...))
-```
 
 ## The Crooked Casino
+###
 
-Recall the function we wrote in the chapter to model a crooked game of craps. `crooked_craps()` is expected to return a winning 7 or 11 only *half* of the time the sum is actually 7 or 11. Instead, the other half of the time, it is supposed to return a 2.
+<!-- BG: having trouble inserting the plot. errors result. -->
+  
+<!-- DK: Show the plot at the start. Discuss its meaning. Hint at what we will discuss in chapter 5. Then, walk through the step-by-step creation of it. -->
+
+Recall the function we wrote in the chapter to model a crooked game of craps. `crooked_craps()` is expected to return a winning 7 or 11 only *half* of the time the sum is actually 7 or 11. It returns a 2 much more often than it should. Code:
 
 ```{r crooks, echo=TRUE}
 crooked_dice <- function(n = 1){
@@ -1579,23 +1056,10 @@ crooked_craps <- function(n = 1){
 
 Let's put our visualization skills to the test.
 
-###
+### Exercise 1
 
 Create a tibble with column "games" and run `crooked_craps()` 100 times.
 
-```{r crooked-1-setup}
-crooked_dice <- function(n = 1){
-  stopifnot(is.numeric(n))
-  stopifnot(n >= 0)
-  roll <- sum(sample(1:6, n, replace = TRUE))
-  ifelse((roll == 7 | roll == 11) && runif(1) >= 0.5, 2, roll)
-}
-
-crooked_craps <- function(n = 1){
-  stopifnot(is.numeric(n))
-  map_dbl(rep(2, n), crooked_dice)
-}
-```
 
 ```{r crooked-1, exercise=TRUE}
 
@@ -1605,45 +1069,18 @@ crooked_craps <- function(n = 1){
 tibble(games = crooked_craps(...))
 ```
 
-###
+### Exercise 2
 
 Create a barplot with `games` on the `x` axis.
 
-```{r crooked-2-setup}
-crooked_dice <- function(n = 1){
-  stopifnot(is.numeric(n))
-  stopifnot(n >= 0)
-  roll <- sum(sample(1:6, n, replace = TRUE))
-  ifelse((roll == 7 | roll == 11) && runif(1) >= 0.5, 2, roll)
-}
-
-crooked_craps <- function(n = 1){
-  stopifnot(is.numeric(n))
-  map_dbl(rep(2, n), crooked_dice)
-}
-```
 
 ```{r crooked-2, exercise=TRUE, eval=FALSE}
 tibble(games = crooked_craps(100))
 ```
 
-###
+### Exercise 3
 
 Now, change the `x` axis scale to increment by integers from 2 to 12.
-
-```{r crooked-3-setup}
-crooked_dice <- function(n = 1){
-  stopifnot(is.numeric(n))
-  stopifnot(n >= 0)
-  roll <- sum(sample(1:6, n, replace = TRUE))
-  ifelse((roll == 7 | roll == 11) && runif(1) >= 0.5, 2, roll)
-}
-
-crooked_craps <- function(n = 1){
-  stopifnot(is.numeric(n))
-  map_dbl(rep(2, n), crooked_dice)
-}
-```
 
 ```{r crooked-3, exercise=TRUE, eval=FALSE}
 tibble(games = crooked_craps(100)) %>%
@@ -1658,21 +1095,9 @@ tibble(games = crooked_craps(100)) %>%
   scale_x_continuous(breaks = seq(...))
 ```
 
-Great! Hmm... we're not entirely sure this plot is representative. It does look like what we'd expect, but running `crooked_craps()` 10 times feels safer than running it just once. Use an appropriate `map_*` function and `rep()` to call `crooked_craps(100)` 10 times. Create a tibble named `x` with a column named `games`.
+### Exercise 4
 
-```{r crooked-4-setup}
-crooked_dice <- function(n = 1){
-  stopifnot(is.numeric(n))
-  stopifnot(n >= 0)
-  roll <- sum(sample(1:6, n, replace = TRUE))
-  ifelse((roll == 7 | roll == 11) && runif(1) >= 0.5, 2, roll)
-}
-
-crooked_craps <- function(n = 1){
-  stopifnot(is.numeric(n))
-  map_dbl(rep(2, n), crooked_dice)
-}
-```
+Use an appropriate `map_*` function and `rep()` to call `crooked_craps(100)` 10 times. Create a tibble named `x` with a column named `games`.
 
 ```{r crooked-4, exercise=TRUE, eval=FALSE}
 
@@ -1682,23 +1107,12 @@ crooked_craps <- function(n = 1){
 x <- tibble(games = map(rep(100, 10), ...))
 ```
 
+### Exercise 5
+
 Inside each of these iterations of 100 rolls, we want to count the number of 3's and 11's. Technically, with a fair die one would expect as many 11's to appear as 3's. 11's can be obtained in two different ways: by adding 5 + 6 and 6 + 5. The same goes for 3's: by adding 1 + 2 and 2 + 1.
 
 First, count the number of 3's. You can do so by using a the appropriate `map_*` function and an anonymous function defined as `sum(. == 3)`.
 
-```{r crooked-5-setup}
-crooked_dice <- function(n = 1){
-  stopifnot(is.numeric(n))
-  stopifnot(n >= 0)
-  roll <- sum(sample(1:6, n, replace = TRUE))
-  ifelse((roll == 7 | roll == 11) && runif(1) >= 0.5, 2, roll)
-}
-
-crooked_craps <- function(n = 1){
-  stopifnot(is.numeric(n))
-  map_dbl(rep(2, n), crooked_dice)
-}
-```
 
 ```{r crooked-5, exercise=TRUE, eval=FALSE}
 x <- tibble(games = map(rep(100, 10), crooked_craps)) %>%
@@ -1710,23 +1124,10 @@ x <- tibble(games = map(rep(100, 10), crooked_craps)) %>%
   mutate(counts = map_int(games, ~(...)))
 ```
 
-###
+### Exercise 6
 
 Now, modify `counts` so that it is a list-column of 2 elements per list: The number of 3's, then the number of 11's.
 
-```{r crooked-6-setup}
-crooked_dice <- function(n = 1){
-  stopifnot(is.numeric(n))
-  stopifnot(n >= 0)
-  roll <- sum(sample(1:6, n, replace = TRUE))
-  ifelse((roll == 7 | roll == 11) && runif(1) >= 0.5, 2, roll)
-}
-
-crooked_craps <- function(n = 1){
-  stopifnot(is.numeric(n))
-  map_dbl(rep(2, n), crooked_dice)
-}
-```
 
 ```{r crooked-6, exercise = TRUE}
 x <- tibble(games = map(rep(100, 10), crooked_craps)) %>%
@@ -1738,39 +1139,10 @@ x <- tibble(games = map(rep(100, 10), crooked_craps)) %>%
   mutate(counts = map(games, ~list(sum(. == 3), ...)))
 ```
 
-###
-
-Finally, view the tibble with `str()`.
-
-```{r crooked-7-setup}
-crooked_dice <- function(n = 1){
-  stopifnot(is.numeric(n))
-  stopifnot(n >= 0)
-  roll <- sum(sample(1:6, n, replace = TRUE))
-  ifelse((roll == 7 | roll == 11) && runif(1) >= 0.5, 2, roll)
-}
-
-crooked_craps <- function(n = 1){
-  stopifnot(is.numeric(n))
-  map_dbl(rep(2, n), crooked_dice)
-}
-```
-
-```{r crooked-7, exercise = TRUE}
-x <- tibble(games = map(rep(100, 10), crooked_craps)) %>%
-  mutate(counts = map(games, ~list(sum(. == 3), sum(. == 11))))
-```
-
-```{r finalquiz}
-quiz(caption = "",
-     question("Based off of your observations and prior knowledge, is our crooked_craps() function truly crooked (compared to what we'd expect from a game of craps with two fair dice)?",
-     allow_retry = TRUE,
-     random_answer_order = TRUE,
-     answer("Yes, because the number of 3's rolled seems to generally be higher than the number of 11's rolled.", correct = TRUE, message = "Exactly! This might've been a different story if we didn't know the contents of the crooked_craps() function, since the difference between the number of 3's and the number of 11's rolled could be chalked up to natural variation. However, we wrote the function to be crooked. Additionally, as we increase the number of simulations, the more confident we can be that the data reflects a real difference in the frequency of 3's and 11's rolled."),
-     answer("Yes, because there will always be more 3's than 11's rolled in 100 rolls", message = "While that could have been the case for your 10 different trials, imagine if you ran 1000 or 1 million trials. Could you say with absolute confidence that not a single trial would yield more 11's than 3's?")))
-```
 
 ## Submit
+
+Some of these exercises were taken from the collection of [RStudio Primers](https://rstudio.cloud/learn/primers), a great resource for practicing your skills.
 
 ```{r context="setup"}
 submission_ui
