@@ -52,6 +52,7 @@ question_text(
 
 We have created a virtual urn with some unknown amount of red beads and white beads. Our goal will eventually be to estimate the total number of red beads in the urn. 
 
+<<<<<<< HEAD
 For this portion of the tutorial, we will be replicating the graph below. The goal is to build this graph step-by-step, using the knowledge from The Primer's Chapter 6. 
 
 ```{r}
@@ -76,6 +77,7 @@ urn %>%
 ### Exercise 1
 
 To view the urn, simply type `urn` in window below and hit Run Code.
+
 
 ```{r shovel1, exercise = TRUE}
 
@@ -150,6 +152,7 @@ Finally, use `mutate()` to create the `estimated_red` variable, our estimate of 
 The estimated_red variable should be equal to (prop_red * 1500).
 ```
 
+
 ### Exercise 8
 
 Nice work! Running the code below gives us a way to virtually sample our urn in 20-bead increments. Notice that running the code multiple times gives us different estimates for the number of red beads in the urn. Each time we re-run the code, `rep_sample_n()` grabs a different sample from the urn.
@@ -174,9 +177,11 @@ Use `ggplot()` and `geom_histogram()` to create a histogram that maps our 50 val
 
 ```
 
+
 ```{r shovel9-hint, eval=FALSE}
 After copying our code from above, add ggplot(mapping = aes(...). Remember that, with ggplot, our next line of code requires a "+" not a pipe.
 ```
+
 
 ### Exercise 10
 
@@ -186,9 +191,11 @@ Let's make our graph easier to read by setting the histogram's `binwidth` to 75 
 
 ```
 
+
 ```{r shovel10-hint, eval=FALSE}
 geom_histogram(binwidth = ..., color = ...)
 ```
+
 
 ### Exercise 11
 
@@ -209,7 +216,9 @@ urn %>%
     scale_y_continuous(breaks = seq(from = 0, to = 20, by = 2))
 ```
 
+
 ### Exercise 12
+
 
 Use `scale_x_continuous()` to reset the tick marks on the x-axis to the multiples of 100 between 0 and 1,500. Copy and paste the code from the previous exercise to visualize the adjustment that we made to the y-axis and apply it to this prompt.
 
@@ -221,7 +230,9 @@ Use `scale_x_continuous()` to reset the tick marks on the x-axis to the multiple
 The "by" argument of your seq() function should be 100.
 ```
 
+
 ### Exercise 13
+
 
 Great job! By running the code below a few times, we see that the number of red beads in the urn is probably somewhere between 700 and 1,100. We'll learn more about how to refine our estimate in later sections.
 
