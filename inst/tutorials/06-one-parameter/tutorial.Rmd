@@ -339,6 +339,7 @@ Now, let's test our new function `prop_red` by drawing from our urn with a size 
 prop_red(x = urn, size = ..., reps = ...)
 ```
 
+<!-- MF: This is the point where I've stopped for this week. I am going to add in some mapping (decided it was important), but will make it VERY similar to the mapping example in the chapter. I have a feeling this is the best way to ensure the students are reading during the tutorial. -->
 
 ## Standard deviation
 ###
@@ -619,6 +620,8 @@ Using `summarize()`, create the variable `red_in_sample`, which should be equal 
 ```
 
 ### Exercise 4
+
+<!-- MF: I'm thinking that another function series might be too time consuming if the goal is about three hours to complete. That being said, I am going to re-read the earlier chapters and see if maybe functions have been similified for current students. -->
 
 We now have code that makes 1,000 random samples from our 800-red-bead urn, but we want to generalize it to urns with other amounts of red beads. To do so, wrap the code above in a function named `sample_given_urn` that has one parameter, `red_in_urn`. Replace the 800 in the first `rep()` statement with `red_in_urn` and the 700 in the second `rep()` statement with `red_in_urn` subtracted from 1,500. 
 
