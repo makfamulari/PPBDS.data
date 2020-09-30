@@ -42,12 +42,38 @@ options(tutorial.exercise.timelimit = 60, tutorial.storage="local")
 
 
 
+## Name
+###
+
+``` {r name, echo=FALSE}
+question_text(
+  "Student Name:",
+  answer(NULL, correct = TRUE),
+  incorrect = "Ok",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
+
+## Email
+###
+
+``` {r email, echo=FALSE}
+question_text(
+  "Email:",
+  answer(NULL, correct = TRUE),
+  incorrect = "Ok",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
 
 ## Advanced Plotting - `geom_point()`
 
 ###
 
-Let's begin by making this scatterplot.
+Let's begin by making this scatterplot using `geom_point()`.
+
 ```{r qcores}
 ggplot(data=qscores, mapping= aes(x=hours, y=enrollment, color=term)) +scale_y_sqrt()+geom_point(alpha=.5)
 
@@ -57,22 +83,19 @@ ggplot(data=qscores, mapping= aes(x=hours, y=enrollment, color=term)) +scale_y_s
 
 ###
 ### Exercise 1
-Use the data set `qscores` to make the scatterplot above with `hours` on the x axis and `enrollment` on the y axis. Then map the `term` variable to the `color` aesthetic and set alpha to 0.5.
+The data set used here is `qscores`. Put `hours` on the x axis and `enrollment` on the y axis. Then map the `term` variable to the `color` aesthetic.
 
 ```{r point-II-2, exercise=TRUE, exercise.lines=8}
 
 
 ```
 
-```{r point-II-2-hint, eval=FALSE}
 
-Set the alpha argument inside of geom_point() and the color inside of aes().
-
-```
 
 ###
 
-Now change the scale to square root using `scale_y_sqrt()`. Remember you need to add a layer!
+### Exercise 2
+Now change the scale to square root using `scale_y_sqrt()`.(Remember you need to add a layer here). Also, set alpha to 0.5. 
 
 
 ```{r point-II-3, exercise=TRUE, exercise.lines=8}
@@ -82,169 +105,57 @@ Now change the scale to square root using `scale_y_sqrt()`. Remember you need to
 
 ```{r point-II-3-hint, eval=FALSE}
 
-Use the scale_y_sqrt() function.
+Remember the alpha argument goes inside geom_point().
 
 ```
 
-###
-### Exercise 2
-Now let's make a scatterplot using the `diamonds` data set, with `price` on the x-axis, and `carat` on the y-axis.
-
-```{r gp-2-1, exercise=TRUE, exercise.lines = 5}
 
 
-```
 
-###
-
-Great! Now let's try adding some labels. Title the plot: "Carats and Price in Diamonds", and give it the caption: "The relationship between price and carats in diamonds."
-
-```{r gp-2-2-hint, eval=FALSE}
-Use the labs() function to create labels.
-```
-
-
-```{r gp-2-2, exercise=TRUE, exercise.lines = 5}
-ggplot(data = diamonds, aes(x = price, y = carat)) + geom_point()
-
-```
-
-###
-
-Perfect. Now, let's set the `alpha` of every point on the plot to 0.1, and correspond the `cut` attribute to color.
-
-```{r gp-2-3-hint, eval=FALSE}
-Color and alpha can be set within aes(), like x and y.
-```
-
-
-```{r gp-2-3, exercise=TRUE, exercise.lines = 5}
-ggplot(data = diamonds, aes(x = price, y = carat)) + 
-  geom_point() + 
-  labs(title = "Carats and Price in Diamonds", caption = "The relationship between price and carats in diamonds.")
-```
-
-###
-
-Wonderful. Now, let's add a smooth trend line on top of the scatterplot, and scale the x-axis to log10.
-
-```{r gp-2-4-hint, eval=FALSE}
-Use geom_smooth() to create a trendline, and scale_..._log10() to rescale the plot.
-```
-
-
-```{r gp-2-4, exercise=TRUE, exercise.lines = 5}
-ggplot(data = diamonds, aes(x = price, y = carat)) + 
-  geom_point(aes(color = cut, alpha = 0.2)) + 
-  labs(title = "Carats and Price in Diamonds", caption = "The relationship between price and carats in diamonds.")
-```
-
-###
-
-Nice! Now, let's move the legend position to below the plot, and set the theme of the plot to `bw`.
-
-```{r gp-2-5-hint, eval=FALSE}
-Use theme(legend.position = ) and theme_...().
-```
-
-
-```{r gp-2-5, exercise=TRUE, exercise.lines = 5}
-  diamonds %>% ggplot(aes(x = price, y = carat), scale = log10()) +
-    geom_point(aes(color = cut, alpha = 0.2)) +
-    geom_smooth() +
-    scale_x_log10() +
-    labs(title = "Carats and Price in Diamonds", caption = "The relationship between price and carats in diamonds.")
-```
 
 ## Advanced Plotting - `geom_jitter()`
 
 ###
 
+Let's make this scatterplot using `geom_jitter()`.
+
+```{r diamonds-11, eval= TRUE}
+ggplot(data=diamonds, mapping= aes(x=price, y=carat)) +scale_x_log10()+geom_jitter(alpha=.5, height= .25, size=1)+geom_smooth(method="lm")
+```
+
+
 ### Exercise 1
-Use the data set `nhanes` to make a scatterplot jittered by width .5, with `education` on the x axis, and `bmi` on the y axis.
-
-```{r jit-II-1, exercise=TRUE, exercise.lines=6}
-
-```
-
-###
-
-As you can see, there is still a lot of overplotting going on. To combat this, let's set alpha to 0.1. Let's also set the color aesthetic to `gender`
-
-```{r jit-II-2, exercise=TRUE, exercise.lines=6}
-
-```
-
-```{r jit-II-2-hint, eval=FALSE}
-Set alpha inside of geom_jitter() and color inside of aes()
-```
-
-###
-
-Nice! Let's now set a limit on the y-axis with an upper bound of 60 and a lower bound of 10.
-
-```{r jit-II-3, exercise=TRUE, exercise.lines=6}
-
-```
-
-```{r jit-II-3-hint, eval=FALSE}
-use ylim()
-```
-
-###
-
-Great! Let's facet our graph by `gender` and set the number of columns to 1
-
-```{r jit-II-4, exercise=TRUE, exercise.lines=6}
-
-```
-
-```{r jit-II-4-hint, eval=FALSE}
-Use facet_wrap() to facet and set ncol to 1.
-```
-
-
-###
-
-### Exercise 2
-Now let's make a jittered scatterplot using `geom_jitter()` and the `diamonds` tibble. Let's put `carat` on the y-axis, and `price` on the x-axis.
+Use the `diamonds` tibble, and put `carat` on the y-axis, and `price` on the x-axis.
 
 ```{r gj-2-1, exercise=TRUE, exercise.lines = 5}
 
 ```
 
-###
+### Exercise 2
 
-Nice. But, our plot looks a little sloppy and it's hard to see how our data is distributed. Let's try to minimize our overplotting by setting `size` to 1, `height` to 0.25, and `alpha` to 0.2.
+Nice...but our plot looks a little sloppy. Try to minimize our overplotting by setting `size` to 1, `height` to 0.25, and `alpha` to 0.2.
 
 ```{r gj-2-2, exercise=TRUE, exercise.lines = 5}
 
 ```
 
-###
+### Exercise 3
 
-That looks a bit better! Now, try adding a red trendline using `geom_smooth()`, with `method` set to the `lm` or linear mean of the points on the plot. Let's also use the `scale_x_log10` function to make the scale of the plot logarithmic.
+That looks a bit better! Now, try adding a trendline using `geom_smooth()`, with `method` set to the `lm`. Let's also use the `scale_x_log10` function to make the scale of the plot logarithmic.
 
 ```{r gj-2-3, exercise=TRUE, exercise.lines = 5}
 
 ```
 
-###
 
-Well done. Now let's add some labels. Title our plot "Size and Price in Diamonds", our x-axis "Price (US Dollars)", and our y-axis "Size (Carats)". While we're at it, let's also map `color` to `cut`. Do you think that Ideal quality diamonds will fall above or below the trendline? What about Fair quality diamonds?
 
-```{r gj-2-4, exercise=TRUE, exercise.lines = 5}
+### Exercise 4
 
-```
-
-###
-### Exercise 3
-Good stuff. Now, use what you've learned to recreate the plot below. The color scheme is `scale_color_distiller()`, `width` = 1, and `alpha` = 0.2. `Length` is recorded as the variable `x`. 
+Good stuff. Now, use what you've learned to recreate the plot below. Make sure you set`width` = 1, and `alpha` = 0.2. `Length` is recorded as the variable `x`. 
 
 ```{r}
 ggplot(data = diamonds) +
   geom_jitter(aes(x = x, y = price, color = carat), width = 1, alpha = 0.2) +
-  scale_color_distiller() +
   labs(title = "Length and Price in Cut Diamonds",
        x = "Length (Millimeters)",
        y = "Price (US Dollars)")
@@ -268,8 +179,14 @@ ggplot(data = diamonds) +
 
 ###
 
+Let's make this line plot using `geom_line()`.
+
+```{r}
+ggplot(data = economics, aes(x = date, y=    unemploy)) + geom_line() + scale_y_log10()+ ylim(0,20000)
+```
+
 ### Exercise 1
-Let's use the data set `economics`with date on the x-axis and unemploy on the y-axis. Change the scale on the y-axis of the graph below to log base 10 and the color of the line to "blue".
+The line plot uses the data set `economics`, Put `date` on the x-axis and `unemploy` on the y-axis. Change the scale on the y-axis of the graph below to log base 10.
 
 ```{r line-II-1, exercise=TRUE, exercise.lines=10}
 ggplot(data = economics, aes(x = date, y = unemploy)) +
@@ -281,29 +198,7 @@ Use scale_y_log10()
 ```
 
 
-###
-
-Great! Now set the theme to minimalist using theme_minimal().Remember you are adding a layer here!
-
-
-
-```{r line-II-3, exercise=TRUE, exercise.lines=10}
-
-```
-
-###
-
-Nice! Now add the label "population" to the y axis and the title "Population Growth Over Time".
-
-```{r line-II-4, exercise=TRUE, exercise.lines=10}
-
-```
-
-```{r line-II-4-hint, eval=FALSE}
-Use labs()
-```
-
-###
+### Exercise 2
 
 Great! Now add a limit to the y axis with a lower bound of 0 and an upper bound of 20,000.
 
@@ -316,8 +211,8 @@ Use ylim().
 ```
 
 ### 
-### Exercise 2
-Let's make a line plot using information in the `population` tibble, which annually records the populations of different nations. Begin by running this example code for Canada. 
+### Exercise 3
+Make a line plot using the `population` tibble, which annually records the populations of different nations. Run this example code for Canada. 
 
 
 ```{r gl-1-1, exercise=TRUE, exercise.lines = 5}
@@ -327,9 +222,9 @@ population %>%
     geom_line()
 ```
 
-###
+### Exercise 4
 
-Nice! Now try making a plot using x = `year`, y = `population`, but with data from "Australia".
+Nice! Now try making a plot using x = `year`, y = `population` but with data from "Australia".
 
 ```{r gl-1-2-hint, eval=FALSE}
 population %>% 
@@ -342,7 +237,9 @@ population %>%
 
 ```
 
-###
+
+
+### Exercise 5
 
 Great, now let's try plotting the data from both countries on the same graph. Let's also set the `country` variable to `color`.
 
@@ -359,7 +256,7 @@ population %>%
 
 
 ###
-### Exercise 3 
+### Exercise 6
 Great. Now, use what you've learned to recreate the plot below.
 
 ```{r}
@@ -383,58 +280,7 @@ Use `linetype = ...`
 
 ```
 
-###
-### Exercise 4
-Let's make one more `geom_line()` graph using the `economics` tibble, with x = `date`, and y = `unemploy`.
 
-```{r gl-2-1, exercise=TRUE, exercise.lines = 5}
-
-```
-
-###
-
-Now, let's set the color of our line to "blue", and use the ylim() function so that our y-axis begins at 0, and ends at 16,000.
-
-```{r gl-2-2, exercise=TRUE, exercise.lines = 5}
-
-```
-
-###
-
-Great! Our plot looks good. That being said, it's a little bid misleading, because it doesn't account for the rise in population from 1970 to 2015.
-
-Let's try making the y-axis show the percentage of the population that's unemployed, so the plot is a bit more useful. Keep in mind that there is no variable in `economics` that will directly tell us this figure. Note that if you're planning to copy and paste from the last question, you must remove our `ylim()` function.
-
-```{r gl-2-3-hint, eval=FALSE}
-Use the variables `unemploy` and `pop` to find the proportion of the population that is unemployed. Multiply this value by 100 to find the percentage.
-```
-
-```{r gl-2-3, exercise=TRUE, exercise.lines = 5}
-
-```
-
-###
-
-### Exercise 5
-Good work. Now, use what you've learned to replicate this plot.
-
-```{r}
-economics %>% ggplot(aes(x = date)) +
-  geom_line(aes(y = unemploy), color = "red") +
-  geom_line(aes(y = pop), color = "blue") +
-  labs(title = "Unemployment and Population Over Time",
-       x = "Year",
-       y = "Number of People")
-```
-
-
-```{r gl-2-5-hint, eval=FALSE}
-You can use multiple `geom_line()` functions in the same `ggplot()` function.
-```
-
-```{r gl-2-5, exercise=TRUE, exercise.lines = 5}
-
-```
 
 
 ## Advanced Plotting - `geom_histogram()` 
@@ -462,9 +308,9 @@ Set the argument bins in geom_histogram() to 20.
 
 ```
 
-###
+### Exercise 2
 
-Nice! We can also change the bin width by setting it to a specific value. Change the plot so that the bins are .25 wide. (To do this you must delete the bins argument you set in the previous question)
+Nice! Change the plot so that the bins are .25 wide. (To do this you must delete the bins argument you set in the previous question)
 
 ```{r hist-II-2, exercise=TRUE, exercise.lines=7}
 
@@ -476,7 +322,7 @@ Set the argument binwidth in geom_histogram() to .25
 
 ```
 
-###
+### Exercise 3
 
 Now facet the plot by `term` and set the number of columns to 2.
 
@@ -489,17 +335,10 @@ Now facet the plot by `term` and set the number of columns to 2.
 Use facet_wrap() and set ncol to 2.
 ```
 
-###
-
-Great! Now change the theme to black and white using the `theme_bw()` function
-```{r hist-II-4, exercise=TRUE, exercise.lines=7}
-
-
-```
 
 ###
 
-### Exercsie 2
+### Exercsie 4
 ```{r}
 ggplot(data = nhanes, aes(x = height)) +
     geom_histogram(color = "white", fill = "black", bins = 30) +
@@ -514,44 +353,14 @@ Recreate the above histogram. It was made with data set `nhanes` with `height` o
 
 ```
 
-###
-
-### Exercise 3
-Let's now use `mpg`, a tibble which contains data on the fuel efficiency of different types of cars, to make a `geom_histogram()` with x = `cty`.
-
-```{r gh-2-1, exercise=TRUE, exercise.lines = 5}
-
+```{r hist-II-5-hint, eval=FALSE}
+Use facet_wrap() and set ncol to 1.
 ```
 
-###
-
-Nice. Now, let's set `binwidth` to 1, and map `fill` to the variable `class`.
-
-
-```{r gh-2-2, exercise=TRUE, exercise.lines = 5}
-
-```
 
 ###
 
-Great work, now, let's try changing the color scheme of our plot to the `brewer` theme, using `scale_fill_brewer()`. Remember that setting `color` in a histogram will only change the outline of the bins, and you need to change `fill` to change the interior color of the bins. That being said, let's also set `color` to "black" to create a black outline around our bins.
-
-```{r gh-2-3, exercise=TRUE, exercise.lines = 5}
-
-```
-
-###
-
-Nice. Now, let's set `position` to "fill", to get a better sense of the types of cars at each fuel economy value, not just the quantity.
-
-
-```{r gh-2-4, exercise=TRUE, exercise.lines = 5}
-
-```
-
-###
-
-### Exercise 4
+### Exercise 5
 Well done. Finally, use what you've learned about `geom_histogram()` to replicate the plot below.
 
 ```{r}
@@ -566,9 +375,15 @@ mpg %>% ggplot(aes(x = hwy, color = class)) +
 
 ```
 
+```{r gh-2-5-hint, eval=FALSE}
+Within geom_histogram, use the arguments: fill= "white", bins = 5, position = "dodge"
+```
+
+
 ## Advanced Plotting - `geom_boxplot()`
 
 ###
+
 
 ### Exercise 1
 
@@ -578,11 +393,8 @@ For data set `diamonds`, create a boxplot with `clarity` on the x axis and `pric
 
 ```
 
-```{r box-II-1-hint, eval=FALSE}
-Review geom_boxplot I
-```
 
-###
+### Exercise 2
 
 Try changing the scale of the y axis to log base 10
 
@@ -594,84 +406,22 @@ Try changing the scale of the y axis to log base 10
 Use the scale_y_log10() function
 ```
 
-###
 
-Nice job! For now, I have set the scale on the y axis back to continuous. In our first diamonds boxplot, R automatically set labels on the tick marks at 0, 5000, 10000 and 15000. Try changing this so that we have labels at 0, 9000 and 18000. After this, add dollar signs to your labels. Note, this is different from and does not use labs()!
-
-
-
-```{r box-II-3, exercise=TRUE, exercise.lines=10}
-diamonds %>%
-  ggplot(aes(x = clarity, y = price))+
-    geom_boxplot()+
-    scale_y_continuous()
-```
-
-```{r box-II-3-hint,eval=FALSE}
-Add breaks in the scale function to change label location. Also in the scale function, use the scales library to add dollars signs
-```
-
-###
-
-Now facet the plot by `cut` and set the number of columns to 2
-
-```{r box-II-4, exercise=TRUE, exercise.lines=10}
-diamonds %>%
-  ggplot(aes(x = clarity, y = price)) +
-    geom_boxplot() +
-    scale_y_continuous(breaks = c(0, 9000, 18000), labels = scales::dollar)
-```
-
-```{r box-II-4-hint,eval=FALSE}
-Use facet_wrap() and set ncol to 2
-```
-
-###
-
-```{r}
-cces %>%
-  ggplot(aes(x = age, y = ideology)) +
-    geom_boxplot() +
-    facet_wrap(~ race, ncol = 2) +
-    labs(title = "Age, Ideology and Race in American Election Data")
-```
-
-### Exercise 2
-Recreate the above boxplot from data set `cces`. Note that the plot is faceted by `race` with the number of columns set to 2.
-
-```{r box-II-5, exercise=TRUE, exercise.lines=10}
-
-```
-
-```{r box-II-5-hint, eval=FALSE}
-Use facet_wrap() to facet and labs() to create labels
-```
-
-###
 ### Exercise 3
-Make a boxplot using the `diamonds` tibble with x = `cut`, and y = `price`.
 
-```{r gb-2-1, exercise=TRUE, exercise.lines = 5}
-
-```
-
-###
-
-Great! Now, use `coord_flip()` to convert the plot into a horizontal boxplot, and get rid of the outliers by setting `outlier.alpha` to 0. Note that you can also make outliers disappear by setting `outlier.color` to "white".
+Great! Now, use `coord_flip()` to convert the plot into a horizontal boxplot.
 
 ```{r gb-2-2, exercise=TRUE, exercise.lines = 5}
 
 ```
 
-###
 
-Wonderful. Now, let's use `labs()` to add some labels to our plot. Title the plot "Diamond Price by Quality", call the x-axis "Price (US Dollars)", and call the y-axis "Quality".
-
-```{r gb-2-3, exercise=TRUE, exercise.lines = 5}
-
+```{r gb-2-2-hint, eval=FALSE}
+Remember that you are adding a layer here
 ```
 
-###
+
+### Exercise 4
 
 Great! Now, let's zoom in on our plot by setting  `ylim()` to the vector `c(500, 7000)`. Remember that `ylim()` should be placed inside of the `coord_` function, in this case, `coord_flip`.
 
@@ -679,35 +429,20 @@ Great! Now, let's zoom in on our plot by setting  `ylim()` to the vector `c(500,
 
 ```
 
-###
 
-Nice! Note that you can also zoom in on a plot by using the `xlim()` or `ylim()` functions outside of the `coord_` function without using a vector, but this is not ideal because it will disregard points outside of the zoom when calculating the average and percentile lines of a `boxplot()`. You can try this yourself by deleting the argument from the last question, and adding `+ xlim(7500)` to our plot. Notice how the averages are slightly different?
-
-###
-
-### Exercise 4
-Now, use what you've learned to recreate the plot below.
-
-```{r}
-ggplot(data = diamonds, 
-       aes(x = price, y = carat, group = cut_interval(price, n = 4))) +
-  geom_boxplot(outlier.alpha = 0.1, color = "red") +
-  labs(title = "Size and Quality in Diamonds",
-       x = "Price (US Dollars)",
-       y = "Size (Carats)")
-```
-
-```{r gb-2-5-hint, eval=FALSE}
-In order to use two continuous variables in a `boxplot()`, use the `group = cut_` function, in this case, `group = cut_interval(..., n = ...)`. Remember that this function must be inside of `aes()`. The first argument to `cut_interval()` is the variable you want to cut. The `n` argument is the number of pieces into which you want to separate the observations.
-```
-
-```{r gb-2-5, exercise=TRUE, exercise.lines = 5}
-
-```
 
 ## Advanced Plotting - `geom_violin()`
 
 ###
+
+Let's make this plot using `geom_violin()`.
+
+```{r}
+ggplot(data = mpg, aes(x = class, y = cty)) +
+  geom_violin() +
+  geom_jitter(aes(color = hwy, shape = drv), height = 0, width = 0.2)+ labs(title= "Engine Size by Car Type")
+```
+
 ### Exercise 1
 Let's use the `mpg` tibble to make a plot with `geom_violin()`. Let's map our x-axis to `class`, and our y-axis to `displ`.
 
@@ -715,37 +450,25 @@ Let's use the `mpg` tibble to make a plot with `geom_violin()`. Let's map our x-
 
 ```
 
-###
 
-Well done. Now, let's add some percentile lines with `draw_quantiles` at 0.33 and 0.66. Let's also set `trim` to FALSE, to add tails to the violins. Both arguments should go inside the `geom_violin()` function.
+### Exercise 2
 
-```{r gv-2-2-hint, eval=FALSE}
-draw_quantiles = c(..., ..., ...)
-```
-
-```{r gv-2-2, exercise=TRUE, exercise.lines = 5}
-
-```
-
-###
-
-Good. Now, let's add some labels with `labs()`. Let's title our plot "Engine Size by Car Type", our x-axis "Car Type", and our y-axis "Engine Size (Liters)". Let's also use `theme_minimal()` to give our plot a cleaner look.
+Good. Now, let's add some labels with `labs()`. Let's title our plot "Engine Size by Car Type".
 
 ```{r gv-2-3, exercise=TRUE, exercise.lines = 5}
 
 ```
 
-###
+### Exercise 3
 
-Nice Work. Now, let's use `geom_jitter()` to add a new layer to our plot, and map `color` to `maufacturer`, so we can get a sense of how car brand has to do with engine size. 
-We use `geom_jitter()` over `geom_point()` in this scenario because it will spread points that occupy the same coordinates, making it easier to visualize the distribution of data. That being said, let's set `height` to 0, so all of the data points are accurate to their actual `displ` values. We can also set `width` to 0.2, so that the points stay more or less within the violins.
+Nice Work. Now, let's use `geom_jitter()` to add a new layer to our plot, and map `color` to `maufacturer`, so we can get a sense of how car brand has to do with engine size. Let's set `height` to 0 and `width` to 0.2.
 
 ```{r gv-2-4, exercise=TRUE, exercise.lines = 5}
 
 ```
 
-###
-### Exercise 2
+
+### Exercise 4
 Cool. Now use what you've learned to replicate the plot below.
 
 ```{r}
@@ -756,74 +479,41 @@ ggplot(data = mpg, aes(x = class, y = cty)) +
 
 ```{r gv-2-5, exercise=TRUE, exercise.lines = 5}
 
-```
-
-###
-### Exercise 3
-Using the `diamonds` data set, use `geom_violin()` to create a plot with `cut` on the x axis and `price` on the y axis.
-
-```{r viol-II-1, exercise=TRUE, exercise.lines=8}
-
-```
-
-###
-
-Great! Now use `ylim()` set a limit on the y axis with an upper bound of 10,000 and a lower bound of 0.
-
-```{r viol-II-2, exercise=TRUE, exercise.lines=8}
-
-```
-
-###
-
-Nice! Now use `fill` to color the plot `"blue"`.
-
-```{r viol-II-3, exercise=TRUE, exercise.lines=8}
 
 ```
 
 
-###
-
-Awesome! Now add a layer and change the theme to dark using `theme_dark()`.
-
-```{r viol-II-5, exercise=TRUE, exercise.lines=8}
-
+```{r gv-2-5-hint, eval= FALSE}
+ggplot(data = mpg, aes(x = class, y = cty)) +
+  geom_violin() +
+  geom_jitter(aes(color = ..., shape = ...), height = ..., width = ...)
 ```
+
 
 ## Advanced Plotting - `geom_bar()`
 
 ###
 
+Let's make the following dodged bar plot using `geom_bar`.
+
+```{r}
+ggplot(data = sps, aes(x = education, fill=sex)) +
+  geom_bar(postion="dodge")
+```
+
 ### Exercise 1
-Using data set `sps`, a public health experiment in Mexico, make a dodged bar plot with `education` on the x axis and `sex` mapped to the fill aesthetic.
+Using data set `sps`, a public health experiment in Mexico, make a dodged bar plot with `education` on the x axis. Map the`sex`variable to the fill aesthetic.
 
 ```{r bar-II-1, exercise=TRUE, exercise.lines=7}
 
 
 ```
 
-###
-
-Great! Try changing the scale with the function `scale_y_sqrt()`
-```{r bar-II-2, exercise=TRUE, exercise.lines=7}
-
+```{r bar-II-1-hint, eval=FALSE}
+Within the geom_bar() argument, set position = "dodge"
 
 ```
 
-###
-
-Now facet the graph by `treatment` and set the number of columns to 2.
-
-```{r bar-II-4, exercise=TRUE, exercise.lines=7}
-
-
-```
-
-```{r bar-II-4-hint, eval=FALSE}
-To facet, use facet_wrap() and inside, set ncol to 2.
-
-```
 
 
 ### 
@@ -835,7 +525,7 @@ Let's make a barplot using `trains`, a tibble that records attitudes towards imm
 
 ```
 
-###
+### Exercise 3
 
 Great. Now, map `fill` to `party`. Notice any patterns?
 
@@ -843,16 +533,8 @@ Great. Now, map `fill` to `party`. Notice any patterns?
 
 ```
 
-###
 
-Nicely done. Let's change the aesthetics of our graph to make it a little more appealing. Let's change our theme using `theme_bw()`, and change our color scheme using `scale_color_brewer()`.
-
-
-```{r gbr-2-3, exercise=TRUE, exercise.lines = 5}
-
-```
-
-###
+### Exercise 4
 
 Good work. Now, let's use `facet_wrap()` to divide our graph by the `liberal` variable.
 
@@ -866,7 +548,7 @@ facet_wrap( ~ ...)
 
 ###
 
-### Exercise 3
+### Exercise 5
 Well done. Now, use what you've learned to recreate the plot below.
 
 ```{r}
@@ -886,65 +568,7 @@ ggplot(data = trains, mapping = aes(x = att_end, fill = gender)) +
 
 ###
 
-### Exercise 1
-Let's begin with the data set `starwars`. Using `naboo`, make a bar plot of only characters from Naboo with `name` on the x axis and `height` on the y axis. In order to do this, we must first filter by `homeworld`, which has been done for you below.
-
-```{r col-II-1, exercise=TRUE, exercise.lines=7, eval=FALSE}
-naboo <- starwars %>%
-  filter(homeworld == "Naboo")
-
-
-
-```
-
-###
-
-Great! Now set the `fill` aesthetic to the variable `sex`.
-
-```{r col-II-2, exercise=TRUE, exercise.lines=7}
-naboo <- starwars %>%
-  filter(homeworld == "Naboo")
-
-
-```
-
-```{r col-II-2-hint, eval=FALSE}
-Because fill is an aesthetic, we set it inside aes()
-```
-
-###
-
-Nice! As you can see, there is some overlapping text making it hard to read the x axis. Let's fix this by setting the x axis text size to 4 using `theme()`.
-
-```{r col-II-3, exercise=TRUE, exercise.lines=7}
-naboo <- starwars %>%
-  filter(homeworld == "Naboo")
-
-```
-
-```{r col-II-3-hint, eval=FALSE}
-Use theme() and set axis.text.x to element_text(size = 4)
-
-```
-
-###
-
-Nice! Now try making the bars thinner by setting bar width to .5
-
-```{r col-II-4, exercise=TRUE, exercise.lines=7}
-naboo <- starwars %>%
-  filter(homeworld == "Naboo")
-
-```
-
-```{r col-II-4-hint, eval=FALSE}
-Set width inside of geom_col()
-```
-
-###
-
-### Exercise 2
-Recreate the plot below using the data set `eng_qscores` which was made from the data set `qscores` and was filtered to only include data where `department` == `ENGLISH`. Additionally, the size of the text on the x axis was set to size 5 using `theme()`.
+Let's recreate the plot below using `geom_col()`.
 
 ```{r}
 eng_qscores <- qscores %>%
@@ -956,6 +580,18 @@ ggplot(data = eng_qscores, aes(x = number, y = hours)) +
   labs(title = "Hours of Work in Harvard English Classes")
 ```
 
+### Exercise 1
+Use the data set `eng_qscores` which was made from the data set `qscores` and was filtered to only include data where `department` == `ENGLISH`.
+
+```{r}
+eng_qscores <- qscores %>%
+  filter(department == "ENGLISH")
+
+ggplot(data = eng_qscores, aes(x = number, y = hours)) +
+  geom_col() +
+  labs(title = "Hours of Work in Harvard English Classes")
+```
+
 ```{r col-II-5, exercise=TRUE, exercise.lines=10, eval=FALSE}
 eng_qscores <- qscores %>%
   filter(department == "ENGLISH")
@@ -963,12 +599,16 @@ eng_qscores <- qscores %>%
 ```
 
 ```{r col-II-5-hint, eval=FALSE}
-Use labs() to add a title and use theme() and set axis.text.x to element_text(size = 5)
+eng_qscores <- qscores %>%
+  filter(department == "ENGLISH")
+
+ggplot(data = eng_qscores, aes(x = number, y = hours)) +
+  geom_col() + labs(title = ...)
 ```
 
 ###
 
-### Exercise 3
+### Exercise 2
 Let's make a plot recording the fuel efficiency of different Toyota models with the `toyota_mpg` tibble (made from `mpg`, and `geom_col()`. Set x = `hwy`, and y = `cty`.
 
 ```{r gc-2-1-hint, eval=FALSE}
@@ -985,10 +625,9 @@ toyota_mpg <- mpg %>%
 
 ```
 
-###
+### Exercise 3
 
-Nicely done. But wait a second, our numbers seem way off! Because `geom_col()` uses the `stacked` position by default, it's lumping all the different car models with the same name on the same bar. 
-Let's set our `position` to `dodge`, and continue. Let's also set `color` to "white" to make a white outline around our bars.
+Nicely done. Because `geom_col()` uses the `stacked` position by default, it's lumping all the different car models with the same name on the same bar. Let's set our `position` to `dodge`, and continue. Let's also set `color` to "white" to make a white outline around our bars.
 
 ```{r gc-2-2, exercise=TRUE, exercise.lines = 7}
 toyota_mpg <- mpg %>% 
@@ -996,52 +635,21 @@ toyota_mpg <- mpg %>%
 
 ```
 
-###
 
-Wonderful. Now, let's map `fill` to the `class` variable. Let's also make some labels for our legend. Note that this must be done inside of a `scale()` function. Let's make this `scale()` function `scale_fill_discrete()` for now, so it won't change anything except for our legend.
-
-Let's call our legend "Car Types", and our variables "Small", "Medium", "Pickup Truck", and "SUV".
-
-```{r gc-2-3-hint, eval=FALSE}
-sacle_...(name = ..., labels = c(..., ..., ...))
-```
-
-```{r gc-2-3, exercise=TRUE, exercise.lines = 7}
-toyota_mpg <- mpg %>% 
-  filter(manufacturer == "toyota")
-```
-
-
-###
-
-### Exercise 4
-Excellent. Now, use what you've learned about `geom_col()` to replicate the plot below. The theme is `theme_bw()`. This time we will want to use `drv` for the argument to `fill` and `displ` as the argument to `x` in `aes()`. You can also read about the meaning of the variables in `mpg` by typing `?mpg`.
-
-```{r}
-mpg %>% 
-  filter(manufacturer == "audi") %>% 
-  ggplot(aes(x = displ, y = hwy, fill = drv)) +
-    geom_col() +
-    theme_bw() +
-    scale_fill_discrete(name = "Drive Mode", 
-                        labels = c("Front Only", "Four Wheel")) +
-    labs(title = "Fuel Economy and Engine Size in Toyota Cars",
-         x = "Engine Size (Liters)",
-         y = "Miles Per Gallon (Highway)")
-```
-
-```{r gc-2-5, exercise=TRUE, exercise.lines = 10}
-audi_mpg <- mpg %>% 
-  filter(manufacturer == "audi")
-
-```
 
 ## Advanced Plotting - `geom_smooth()`
 
 ###
 
+Let's create this graph using `geom_smooth()`.
+
+```{r}
+ggplot(data = trains, mapping = aes(x =att_start, y = att_end, color= treatment)) +
+  geom_smooth(method = "gam", alpha= .75)
+```
+
 ### Exercise 1
-Let's start by looking at the data set `trains`, which includes data on an experiment about attitudes towards immigration. Using `geom_smooth()` and the `"gam"` method, create a graph from `trains` with `att_start` on the x axis and `att_end` on the y axis.
+The graph above uses the data set `trains`, which includes data on an experiment about attitudes towards immigration. Using `geom_smooth()` and setting method to`"gam"`. Put `att_start` on the x axis and `att_end` on the y axis.
 
 ```{r smooth-II-1, exercise=TRUE, exercise.lines=7}
 
@@ -1053,7 +661,7 @@ ggplot(data = ..., mapping = aes(x = ..., y = ...)) +
   geom_smooth(method = "...")
 ```
 
-###
+### Exercise 2
 
 Nice! Now set the `color` aesthetic to the `treatment` variable and set `alpha` to `.75`.
 
@@ -1068,44 +676,25 @@ Because color is an aesthetic, set it inside of aes(). Set alpha inside of geom_
 
 
 ###
-
-Nice! As you can see, R has labeled the tick marks for 4, 8 and 12. Move them to 5, 10 and 15 instead on both axes.
-
-```{r smooth-II-4, exercise=TRUE, exercise.lines=7}
-
-
-```
-
-```{r smooth-II-4-hint, eval=FALSE}
-Set the tickmarks through a vector inside of scale_y_continuous() and scale_x_continous().
-```
-###
-### Exercise 2
+### Exercise 3
 Now let's use the `iris` tibble, which records the dimensions of samples of iris flowers, and `geom_smooth()` to make a plot with `x = Petal.Length`, and `y = Petal.Width`.
 
 ```{r gs-2-1, exercise=TRUE, exercise.lines = 5}
 
 ```
 
-###
+### Exercise 4
 
-Nice. Now, let's map `color` to `Species`. Let's also use the "Reds" color scheme from `scale_color_brewer()`.
+Nice. Now, let's map `color` to `Species` and set method to 'lm'
 
 ```{r gs-2-2, exercise=TRUE, exercise.lines = 5}
 
 ```
 
-###
-
-Great. Now, let's make our trendlines represent the linear mean of their data, by setting `method` to `lm`.
-
-```{r gs-2-4, exercise=TRUE, exercise.lines = 5}
-
-```
 
 ###
-### Exercise 3
-Good work. Now, use what you've learned to recreate the graph below.
+### Exercise 5
+Good work. Now, use what you've learned to recreate the graph below. You are going to need to use the argument 'se= FALSE' in the geom_smooth() function.
 
 ```{r}
 ggplot(data = iris, mapping = aes(x = Sepal.Width, y = Sepal.Length, linetype = Species)) +
@@ -1119,28 +708,21 @@ ggplot(data = iris, mapping = aes(x = Sepal.Width, y = Sepal.Length, linetype = 
 
 ```
 
+
 ## Advanced Plotting - `geom_density()`
 
 ###
 
 ### Exercise 1
-Let's make a plot using `geom_density()` and the `qscores` tibble.
+Let's make a plot using `geom_density()` and the `qscores` tibble. Also, map `linetype` to `term` within `aes()`.
 
 ```{r gd-2-1, exercise=TRUE, exercise.lines = 5}
 
 ```
 
-###
+### Exercise 2
 
-Well done. Now, let's map `linetype` to `term` within `aes()`.
-
-```{r gd-2-2, exercise=TRUE, exercise.lines = 5}
-
-```
-
-###
-
-Nice. Now, let's use `labs()` to give our plot some labels. We can title our plot "Distribution of Harvard Class Student Evaluation Ratings", our x-axis "Rating", and our y-axis "Density of Classes".
+Nice. Now, let's use `labs()` to label our x-axis "Rating", and our y-axis "Density of Classes".
 
 Let's also add an `xlim()` function, to set the range of x values on our plot to (2.5, 5).
 
@@ -1150,7 +732,7 @@ Let's also add an `xlim()` function, to set the range of x values on our plot to
 
 ###
 
-### Exercise 2
+### Exercise 3
 Good stuff. Now, use what you've learned about `geom_density()` to recreate the plot below.
 
 ```{r}
@@ -1166,64 +748,9 @@ ggplot(data = qscores, aes(x = enrollment, color = term)) +
 
 ```
 
-###
-
-### Exercise 3
-
-Now let's practice using `geom_density()` and the `diamonds` tibble to make another density plot.
-
-```{r gd-1-1, exercise=TRUE, exercise.lines = 5}
-ggplot(data = diamonds, aes(x = cut)) +
-  geom_density()
-```
 
 ###
 
-Nice. Let's map `color` to the variable of the same name, `color`, from the `diamonds` tibble. Note that you can also use `fill` for `geom_density()`, but in this case it's not ideal because the colored areas overlap too much.
-
-
-```{r gd-1-2, exercise=TRUE, exercise.lines = 5}
-
-```
-
-###
-
-Good stuff. Now, let's use `labs()` to give our plot some labels. Title our plot `"Diamond Color And Price"`, our x-axis `"Price (US Dollars)"`, and our y-axis `"Number of Diamonds"`.
-
-Let's also use `theme_light()` and `scale_color_brewer()`.
-
-
-```{r gd-1-3, exercise=TRUE, exercise.lines = 5}
-
-```
-
-###
-
-Nice. Set `position` to "stack", so it's a little easier to see the lines over each other. This places the data from each consecutive color value over top of the data that's already been plotted, 'stacking' the data. Now, we can change our `color` mapping to `fill` (you will need to do this in the `scale()` functions as well).
-
-
-```{r gd-1-4, exercise=TRUE, exercise.lines = 5}
-
-```
-
-###
-
-### Exercise 4
-
-Excellent. Now, use what you've learned about `geom_density()` to recreate the plot below.
-
-```{r}
-ggplot(data = diamonds, aes(x = carat, color = cut)) +
-  geom_density() +
-    labs(title = "Distribution of Size in Diamonds",
-         x = "Size (Carats)",
-         y = "Density of Diamonds") +
-    scale_color_brewer()
-```
-
-```{r gd-1-5, exercise=TRUE, exercise.lines = 5}
-
-```
 
 ## Submit
 

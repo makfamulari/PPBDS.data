@@ -44,9 +44,34 @@ options(tutorial.exercise.timelimit = 60, tutorial.storage="local")
 Welcome to your first Gov 50 tutorial on Chapter 1: Visualization! We hope that this tutorial will be a great opportunity for you to learn and dive deeper into the course material. Most of these tutorial questions will be exercises in which you can put your coding skills to the test to practice all of the cool visualization techniques you read about in Chapter 1, but you will also test your knowledge in multiple choice and short answer questions. Let's get started!!
 
 
+## Name
+
+
+``` {r name}
+question_text(
+  "Student Name:",
+  answer(NULL, correct = TRUE),
+  allow_retry = TRUE,
+  try_again_button = "Modify your answer",
+  incorrect = "Ok"
+)
+```
+
+
+## Email
+
+``` {r email}
+question_text(
+  "Email:",
+  answer(NULL, correct = TRUE),
+  allow_retry = TRUE,
+  try_again_button = "Modify your answer",
+  incorrect = "Ok"
+)
+```
+
+
 ## How do I code in R?
-
-
 ### Exercise 1
 
 **Load a package**
