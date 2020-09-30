@@ -54,7 +54,7 @@ Suppose you have designed an experiment to gather data on a topic.
 question_text("How many times must you conduct the experiment to create a mathemetical distribution?",
               answer(NULL, correct = TRUE), 
               incorrect = "Submitted.",
-              message = "A mathematical distrubition requires no experimental data because it relies solely on mathematical formulas. Thus, you don't need to conduct the experiment at all before creating a mathetmatical distribution.")
+              message = "A mathematical distribution requires no experimental data because it relies solely on mathematical formulas. Thus, you don't need to conduct the experiment at all before creating a mathematical distribution.")
 ```
 
 ###

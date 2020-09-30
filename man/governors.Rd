@@ -56,11 +56,17 @@ Table: Data summary\tabular{ll}{
    Number of columns \tab 11 \cr
    _______________________ \tab  \cr
    Column type frequency: \tab  \cr
-   character \tab 6 \cr
    Date \tab 1 \cr
+   character \tab 6 \cr
    numeric \tab 4 \cr
    ________________________ \tab  \cr
    Group variables \tab None \cr
+}
+
+
+\strong{Variable type: Date}\tabular{lrrlllr}{
+   skim_variable \tab n_missing \tab complete_rate \tab min \tab max \tab median \tab n_unique \cr
+   died \tab 0 \tab 1 \tab 1946-12-21 \tab 2019-08-18 \tab 1996-07-20 \tab 683 \cr
 }
 
 
@@ -72,12 +78,6 @@ Table: Data summary\tabular{ll}{
    party \tab 0 \tab 1 \tab 8 \tab 11 \tab 0 \tab 3 \tab 0 \cr
    sex \tab 0 \tab 1 \tab 4 \tab 6 \tab 0 \tab 2 \tab 0 \cr
    status \tab 0 \tab 1 \tab 9 \tab 10 \tab 0 \tab 2 \tab 0 \cr
-}
-
-
-\strong{Variable type: Date}\tabular{lrrlllr}{
-   skim_variable \tab n_missing \tab complete_rate \tab min \tab max \tab median \tab n_unique \cr
-   died \tab 0 \tab 1 \tab 1946-12-21 \tab 2019-08-18 \tab 1996-07-20 \tab 683 \cr
 }
 
 

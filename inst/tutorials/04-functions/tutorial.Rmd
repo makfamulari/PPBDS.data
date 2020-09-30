@@ -510,7 +510,7 @@ Remember to use the parentheses when calling a function from inside replicate()!
   
  
 ```
-<!-- BG: better hint here -->
+<!-- better hint here -->
 
 
 
@@ -1057,9 +1057,8 @@ repeat_biggest <- function(n = 1){
 ## The Crooked Casino
 ###
 
-<!-- BG: having trouble inserting the plot. errors result. -->
-  
-<!-- DK: Show the plot at the start. Discuss its meaning. Hint at what we will discuss in chapter 5. Then, walk through the step-by-step creation of it. -->
+
+<!-- Show the plot at the start. Discuss its meaning. Hint at what we will discuss in chapter 5. Then, walk through the step-by-step creation of it. -->
 
 Recall the function we wrote in the chapter to model a crooked game of craps. `crooked_craps()` is expected to return a winning 7 or 11 only *half* of the time the sum is actually 7 or 11. It returns a 2 much more often than it should. Code:
 
