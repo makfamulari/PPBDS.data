@@ -182,7 +182,7 @@ If we ran the code above 1,000 times, we'd probably get a result fairly close to
 
 ### Exercise 10
 
-We're now going to make a different kind of empirical distribution. Start by using `tibble()` again to make a tibble. The sole column of the tibble should be `heads`, equal to the result of an `rbinom()` statement with 1,000 observations of a fair coin, 100 trials (flips) per observation, and .95 probability.
+We're now going to make a different kind of empirical distribution. Start by using `tibble()` again to make a tibble. The sole column of the tibble should be `heads`, equal to the result of an `rbinom()` statement with 1,000 observations of a fair coin, 100 trials (flips) per observation, and 0.5 probability.
 
 ```{r coin12, exercise = TRUE}
 
