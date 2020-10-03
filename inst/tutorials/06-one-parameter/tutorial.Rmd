@@ -284,6 +284,28 @@ In this section, imagine we have three choices of shovels to extract a sample of
 
 Our eventual goal will be to create the graph below. This is showing the standard deviation in results for our three different shovel sizes. Remember: the lower the standard deviation, the more precise our response. 
 
+```{r}
+shovels <- tibble(shovel_size = c(30, 60, 120))
+
+shovels <- shovels %>% 
+  mutate(use_shovel_results = map(shovel_size,
+                                  ~ use_shovel(x = urn,
+                                               size = .x,
+                                               reps = 1000))) %>% 
+  mutate(prop_red_results = map(shovel_size,
+                                ~ prop_red (x = urn,
+                                            size = .x,
+                                            reps = 1000))) %>% 
+  
+shovel_final <- shovels %>%
+ ggplot(aes(x = shovel_size, y = prop_red_results)) +
+ geom_point() +
+ labs(x = "Shovel size",
+      y = "Proportion of red beads")
+
+shovel_final
+```
+
 ### Exercise 1
 
 In the code chunk below, create object `virtual_samples_30` by performing `rep_sample_n` on our object `urn` with a size of 25 and reps of 1000. 
