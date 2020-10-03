@@ -238,7 +238,6 @@ urn %>%
 
 ### Exercise 12
 
-
 Use `scale_x_continuous()` to reset the tick marks on the x-axis to the multiples of 100 between 0 and 1,500. Copy and paste the code from the previous exercise to visualize the adjustment that we made to the y-axis and apply it to this prompt.
 
 ```{r shovel12, exercise = TRUE}
@@ -368,7 +367,85 @@ Now, let's test our new function `prop_red` by drawing from our urn with a size 
 prop_red(x = urn, size = ..., reps = ...)
 ```
 
-<!-- MF: This is the point where I've stopped for this week. I am going to add in some mapping (decided it was important), but will make it VERY similar to the mapping example in the chapter. I have a feeling this is the best way to ensure the students are reading during the tutorial. -->
+
+### Exercise 6
+
+Now that we have confirmed that both the `prop_red` and `use_shovel` functions are working properly, let's begin making our graph. 
+
+To construct this graph, we will be using some mapping. This saves us the time of making three different objects (for shovels of 30, 60, and 120). Start by creating the object `shovels` which should construct a `shovel_size` column of 30, 60, and 120. 
+
+```{r map7, exercise = TRUE}
+
+```
+
+```{r map7-hint, eval = FALSE}
+shovels <- tibble(shovel_size = c(...))
+```
+
+### Exercise 7
+
+We will now modify the object shovels by using a mutate to create the column `use_shovel_results`. `use_shovel_results` should use map `shovel_size` by using our function `use_shovel` with x = urn, size = .x, and reps = 1000. If this sounds confusing, make sure you've looked at "Functions are your friends" carefully.
+
+```{r map8, exercise = TRUE}
+
+```
+
+```{r map8-hint, eval = FALSE}
+shovels <- shovels %>% 
+  mutate(use_shovel_results = map(shovel_size,
+                                  ~ use_shovel(x = ...,
+                                               size = ...,
+                                               reps = ...)
+```
+
+### Exercise 8
+
+To add another column, copy the above code and call another mutate to create the column `prop_red_results`. Like our last exercise, we want to use `map` using shovel size, but (this time) with our function `prop_red` to get the proportion of red beads. We will retain the same characteristics for `prop_red` as we did for `use_shovel`: x = urn, size = .x, and reps = 1000.
+
+```{r map9, exercise = TRUE}
+
+```
+
+```{r map9-hint, eval = FALSE}
+shovels <- shovels %>% 
+  ... %>% 
+  mutate(prop_red_results = map(shovel_size,
+                                ~ prop_red (...))
+```
+
+
+### Exercise 9 
+
+Now that we have finished modifying our object `shovels`, let's construct our graphing using ggplot!
+
+Start by calling `shovels` and then using ggplot with the `shovel_size` as the x-axis and `prop_red_results` as the y-axis. Add geom_point. 
+
+```{r map10, exercise = TRUE}
+
+```
+
+```{r map10-hint, eval = FALSE}
+shovels %>% 
+  ggplot(aes(x = ..., y = ...)) +
+  geom_point()
+```
+
+### Exercise 10
+
+Fantastic work! To finish this graph, use labs to create a label for the x and y axis. Here is our graph for reference: 
+
+```{r map-final}
+shovels %>%
+ ggplot(aes(x = shovel_size, y = prop_red_results)) +
+ geom_point() +
+ labs(x = "Shovel size",
+      y = "Proportion of red beads")
+```
+
+```{r map11, exercise = TRUE, exercise.lines = 20}
+
+```
+
 
 ## Standard deviation
 ###
@@ -441,161 +518,89 @@ seq(from = 21, to = 48, by = 3)
 
 Now that have an intuitive understanding of how standard deviation works, let's apply it to our urn sampling from the previous section. The code below contains our final work from the previous section, excluding our `ggplot()`.
 
-Let's start by adjusting our `sample_size` vector (the first line of code in the bottom pipe). For now, set `sample_size` equal to the result of a `seq()` statement that has every even number `from` 6 `to` 40. Don't worry if you get an error (you should).
+Because we want to be more precise than the previous exercise, let's see if we can look at shovel sizes from 1 to 100, instead of for 30, 60, and 120. Instead of our first line being `shovels` lets start by calling tibble to redefine shovel_size for all values between 1 and 100.
 
-<!-- DK: Again, map2 is too hard for this tutorial. -->
+
 
 ```{r sd6, exercise = TRUE,  exercise.lines = 13}
-sample_urn <- function(size, reps) {
-  urn %>%
-    rep_sample_n(size = size, reps = reps, replace = TRUE) %>%
-    mutate(is_red = (color == "red"), 
-           is_white = (color == "white")) %>%
-    summarize(num_red = sum(is_red), 
-              num_white = sum(is_white), 
-              .groups = "drop") %>%
-    mutate(prop_red = num_red / (num_red + num_white)) %>%
-    mutate(estimated_red = prop_red * 1500)
-}
-
-tibble(sample_size = c(20, 20, 100, 100), 
-       num_reps = c(50, 100, 50, 100)) %>%
-  mutate(sample_results = map2(sample_size, num_reps, 
-                               ~ sample_urn(size = .x, reps = .y))) %>%
-  unnest(cols = sample_results)
+shovels <- shovels %>% 
+  mutate(use_shovel_results = map(shovel_size,
+                                  ~ use_shovel(x = urn,
+                                               size = .x,
+                                               reps = 1000))) %>%
+  mutate(prop_red_results = map(shovel_size,
+                                ~ prop_red(x = urn, 
+                                           size = .x, 
+                                           reps = 1000)))
 ```
 
 ```{r sd6-hint, eval = FALSE}
-tibble(sample_size = seq(from = ..., to = ..., by = ...), 
-       num_reps = c(50, 100, 50, 100))
+Replace "shovels" with tibble(shovel_size = 1:100)
 ```
 
 ### Exercise 7
 
-To refine our `sample_size` vector, use the `c()` function to set `sample_size` equal to the first five integers (`1:5`) combined with the `seq()` statement from the previous exercise. Remember to copy and paste your code from the previous exercise, and again, ignore the error for the time being.
+Now that we are using our functions to draw for all shovel sizes between 1 and 100, we will need to use mutate to create a column that takes the standard deviation of the proportion red found from `prop_red_results`. After copying the above work, add the column `prop_red_sd` using `map_dbl` with prop_red_results. After the ~ sign, you will want to pull using (., prop_red) to isolate the proportion red. Finally, you will take the `sd()` of that pulled value.
+
+This new work should be saved as `shovels_100` instead of the previous `shovels`.
 
 ```{r sd7, exercise = TRUE, message = FALSE}
 
 ```
 
 ```{r sd7-hint, eval = FALSE}
-tibble(sample_size = c(..., seq(...)), 
-       num_reps = c(50, 100, 50, 100))
+shovels_100 <- ... %>% 
+  mutate(prop_red_sd = map_dbl(prop_red_results,
+                               ~ pull(...) %>% ...))
 ```
 
 ### Exercise 8
 
-Since we're going to need it in the next exercise, let's quickly recap the `rep()` function. Run the code below to see how we can make a vector with the number 14 repeated 30 times.
+To visualize what we have created, perform glimpse on `shovels_100`.
 
-```{r sd8, exercise = TRUE}
-rep(14, 30)
+```{r sd8, exercise = TRUE, message = FALSE}
+
 ```
 
 ### Exercise 9
 
-The reason why we get an error is because our `num_reps` vector is not the same length is our `sample_size` vector. To fix the problem, use `rep()` to set `num_reps` equal to the number 50 repeated 23 times.
+As we have seen, we now have the standard deviation of proportions red for all shovel sizes between 1 and 100. We now want to use `ggplot` to visualize this difference in a `geom_point`. Assign `shovel_size` to the x-axis and `prop_red_sd` to the y-axis. 
 
-```{r sd9, exercise = TRUE, exercise.lines = 13, eval=FALSE}
-sample_urn <- function(size, reps) {
-  urn %>%
-    rep_sample_n(size = size, reps = reps, replace = TRUE) %>%
-    mutate(is_red = (color == "red"), 
-           is_white = (color == "white")) %>%
-    summarize(num_red = sum(is_red), 
-              num_white = sum(is_white), 
-              .groups = "drop") %>%
-    mutate(prop_red = num_red / (num_red + num_white)) %>%
-    mutate(estimated_red = prop_red * 1500)
-}
+```{r sd9, exercise = TRUE, message = FALSE}
 
-tibble(sample_size = c(1:5, seq(from = 6, to = 40, by = 2)), 
-       num_reps = c(50, 100, 50, 100)) %>%
-  mutate(sample_results = map2(sample_size, num_reps, 
-                               ~ sample_urn(size = .x, reps = .y))) %>%
-  unnest(cols = sample_results)
 ```
 
 ```{r sd9-hint, eval = FALSE}
-tibble(sample_size = c(1:5, seq(from = 6, to = 40, by = 2)), 
-       num_reps = ...)
+shovels_100 <- %>% 
+  ggplot(aes(...)) +
+  geom_point()
 ```
 
 ### Exercise 10
 
-Nice work! Let's continue our pipe after the `unnest()` call by using `group_by()` to group the pipe by `sample_size`.
+Nice work! Let's finish this visualization by using `labs()` to label the x-axis as "Shovel size", the y-axis as "Standard deviation of the proportion red", and the title as "The impact of shovel size on standard deviation".
+
+```{r sd-final}
+shovels_100 %>%
+ ggplot(aes(x = shovel_size, y = prop_red_sd)) +
+ geom_point() +
+ labs(x = "Shovel size",
+      y = "Standard deviation of the proportion red",
+      title = "The impact of shovel size on standard deviation")
+```
 
 ```{r sd10, exercise = TRUE, message = FALSE}
 
 ```
 
-### Exercise 11
-
-Continue the pipe by using `summarize()` to create the variable `sd_red`. `sd_red` should be equal to the standard deviation of the `estimated_red` variable in each group.
-
-```{r sd11, exercise = TRUE, message = FALSE}
-
-```
-
-### Exercise 12
-
-Pipe the tibble into `ggplot()` to create a scatterplot that maps `sample_size` to the x-axis and `sd_red` to the y-axis.
-
-```{r sd12, exercise = TRUE, message = FALSE}
-
-```
-
-### Exercise 13
-
-Finally, use `labs()` to set the `x`-axis label to "Sample size," the `y`-axis label to "Standard deviation of the number of red beads," and the graph's `title` to "How sample size affects the standard deviation of the sample."
-
-```{r sd13, exercise = TRUE, message = FALSE}
-
-```
-
-### Exercise 14
-
-Great job! From this graph, we can see the general trend that standard deviation decreases as sample size increases. However, the natural variation makes it a bit difficult to analyze the shape of the curve.
-
-To make the relationship between standard deviation and sample size much easier to see, finish your graph by changing the number of `reps` per sample from 50 to 500 (you'll have to change the number inside the `rep()` function).
-
-<!-- DK: Again, end with a graphic and require that the student reproduce it. -->
-
-```{r sd14, exercise = TRUE,  exercise.lines = 20}
-sample_urn <- function(size, reps) {
-  urn %>%
-    rep_sample_n(size = size, reps = reps, replace = TRUE) %>%
-    mutate(is_red = (color == "red"), 
-           is_white = (color == "white")) %>%
-    summarize(num_red = sum(is_red), 
-              num_white = sum(is_white), 
-              .groups = "drop") %>%
-    mutate(prop_red = num_red / (num_red + num_white)) %>%
-    mutate(estimated_red = prop_red * 1500)
-}
-
-tibble(sample_size = c(1:5, seq(from = 6, to = 40, by = 2)), 
-       num_reps = rep(50, 23)) %>%
-  mutate(sample_results = map2(sample_size, num_reps, 
-                               ~ sample_urn(size = .x, reps = .y))) %>%
-  unnest(cols = sample_results) %>%
-  group_by(sample_size) %>%
-  summarize(sd_red = sd(estimated_red)) %>%
-  ggplot(mapping = aes(x = sample_size, y = sd_red)) +
-    geom_point() +
-    labs(x = "Sample size",
-         y = "Standard deviation of the number of red beads",
-         title = "How sample size affects the standard deviation of the sample")
-```
-
-```{r sd14-hint, eval = FALSE}
-tibble(sample_size = c(1:5, seq(from = 6, to = 40, by = 2)), 
-       num_reps = rep(...))
-```
-
 
 ## Posterior distribution from sample
 
+
 ###
+
+<!-- MF: This is where I stopped. Will finish before our next meeting. -->
+
 
 Finally, let's return to our question from the original section: how can we predict the number of beads in the urn based on the results of a sample? In the first section, we discovered that the number of red beads in the urn was probably somewhere between 700 and 1,100, but we could not come up with a better estimate. In this section, we will both improve our estimate and better simulate real-world sampling by estimating the number of beads in the urn from the result of a single sample.
 
@@ -649,8 +654,6 @@ Using `summarize()`, create the variable `red_in_sample`, which should be equal 
 ```
 
 ### Exercise 4
-
-<!-- MF: I'm thinking that another function series might be too time consuming if the goal is about three hours to complete. That being said, I am going to re-read the earlier chapters and see if maybe functions have been similified for current students. -->
 
 We now have code that makes 1,000 random samples from our 800-red-bead urn, but we want to generalize it to urns with other amounts of red beads. To do so, wrap the code above in a function named `sample_given_urn` that has one parameter, `red_in_urn`. Replace the 800 in the first `rep()` statement with `red_in_urn` and the 700 in the second `rep()` statement with `red_in_urn` subtracted from 1,500. 
 
