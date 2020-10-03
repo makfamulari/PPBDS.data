@@ -13,9 +13,7 @@ description: "Chapter 6 tutorial"
 <!-- Things to Fix: -->
 
 <!-- 0) Find all the DK comments and address them -->
-<!-- 1) Do not use map2. It is too much for this tutorial. Just fix one of the numbers and only allow the other one to change. Save map2 for the problem set. -->
-<!-- 2) Each section finishes with a nice plot. The student is show the plot in the last step and told to, approximately, replicate it. Of course, this will just involve adding a couple of items to whatever was the version in the second to last question. -->
-<!-- MF: The middle, especially when we get into map2, is far beyond what I think a student will know after reading the chapter once. If we want mapping in the tutorial, I can ammend it to be a simpler explanation. On the other hand, if I have my chapter open, I'm supposed to be able to do the questions easily, right? In which case, mapping should be taken out here or added to my chapter meaningfully. -->
+<!-- 1) Each section finishes with a nice plot. The student is show the plot in the last step and told to, approximately, replicate it. Of course, this will just involve adding a couple of items to whatever was the version in the second to last question. -->
 
 
 ```{r setup, include=FALSE}
