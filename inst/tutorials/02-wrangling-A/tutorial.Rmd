@@ -140,7 +140,17 @@ question_text(
 )
 ```
 
+## Email
 
+``` {r email, echo=FALSE}
+question_text(
+  "Email:",
+  answer(NULL, correct = TRUE),
+  incorrect = "Ok",
+  try_again_button = "Modify your answer",
+  allow_retry = TRUE
+)
+```
 
 ## Introduction
 ###

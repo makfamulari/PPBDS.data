@@ -1,6 +1,6 @@
 Package: PPBDS.data
 Title: Data for Preceptor's Primer for Bayesian Data Science
-Version: 0.3.2.9006
+Version: 0.3.2.9007
 Authors@R: c(
     person(given = "David",
            family = "Kane",

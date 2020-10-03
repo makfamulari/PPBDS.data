@@ -35,6 +35,26 @@ urn <- tibble(color = c(rep("red", 925), rep("white", 575))) %>%
   slice_sample(prop = 1)
 ```
 
+## Confirm Correct Package Version
+###
+
+Confirm that you have the correct version of PPBDS.data installed by pressing "Run Code."
+
+```{r confirm, exercise=TRUE}
+packageVersion('PPBDS.data')
+```
+
+The answer should be ‘0.3.2.9007’, or a higher number. If it is not, you should upgrade your installation by issuing these commands:
+
+
+```{r confirm-advice, echo=TRUE, eval=FALSE}
+remove.packages('PPBDS.data')  
+library(remotes)  
+remotes::install_github('davidkane9/PPBDS.data')  
+```
+
+Strictly speaking, it should not be necessary to remove a package. Just installing it again should overwrite the current version. But weird things sometimes happen, so removing first is the safest approach. 
+
 ## Name
 
 ```{r name, echo=FALSE}
@@ -52,7 +72,6 @@ question_text(
 
 We have created a virtual urn with some unknown amount of red beads and white beads. Our goal will eventually be to estimate the total number of red beads in the urn. 
 
-<<<<<<< HEAD
 For this portion of the tutorial, we will be replicating the graph below. The goal is to build this graph step-by-step, using the knowledge from The Primer's Chapter 6. 
 
 ```{r}
@@ -232,7 +251,6 @@ The "by" argument of your seq() function should be 100.
 
 
 ### Exercise 13
-
 
 Great job! By running the code below a few times, we see that the number of red beads in the urn is probably somewhere between 700 and 1,100. We'll learn more about how to refine our estimate in later sections.
 

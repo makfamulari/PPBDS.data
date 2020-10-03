@@ -19,20 +19,26 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE)
 options(tutorial.exercise.timelimit = 60, tutorial.storage="local")
 ```
 
-1) Seems weird that the set up chunk only has to include learnr. Does it really work without at least library(shiny)?
 
-2) We need some commands related to git. Mainly just, issue the git commands we told you to, then type "git config user.name" and paste what comes back. Then, type "git config user.email" and paste what comes back. When you paste, give us both the line on which you typed the command and the line(s) below it. Add some git_sitrep() questions, which requires telling them to install **usethis**.
+<!-- 4) Should we do more, something with Github? Something with a PDF file? That would certainly get students going to the first set of Study Halls! -->
 
-3) Let's make this more like the other tutorials. There are two groups: The Terminal and Git. Each group has a collection of exercises.
 
-4) Should we do more, something with Github? Something with a PDF file? That would certainly get students going to the first set of Study Halls!
+## Introduction
 
-## Welcome!
+Open up RStudio on your computer. Then open up the Terminal tab on the left window right next to "Console". This is where we will be running the code for this tutorial's exercises. Before we start, we need to check that Git has been installed first. 
 
-In this tutorial, we will be focusing on the terminal window. The terminal window allows you to interact with the filesystem within your computer. Remember, if you ever have questions regarding how to navigate terminal, visit the "Tools" section of the primer .
-
-## Name
 ###
+
+### Exercise 1
+Copy/paste `git --version`  into the terminal and press return.
+
+###
+
+You should get an output of the git version (ex. git version 2.24.3). If you do not, go to the [Tools](https://davidkane9.github.io/PPBDS/tools.html) section of the primer and follow the directions for installing git.
+
+
+## Name 
+
 
 ``` {r name}
 question_text(
@@ -44,17 +50,25 @@ question_text(
 )
 ```
 
-## Getting Started
+## Email
 
-Let's open up the Terminal tab on the left window right next to "Console". We need to check that git has been installed first. Copy/paste 'git --version' into the terminal and press return.
+``` {r email}
+question_text(
+  "Email:",
+  answer(NULL, correct = TRUE),
+  allow_retry = TRUE,
+  try_again_button = "Modify your answer",
+  incorrect = "Ok"
+)
+```
 
-You should get an output of the git version (ex. git version 2.24.3). If you do not, go to the [Tools section](https://davidkane9.github.io/PPBDS/tools.html) of the primer and follow the directions for installing git.
+## The Terminal
+###
+### Exercise 1
 
-## Terminal Commands
-### Working Directory: pwd
+**Working Directory: `pwd`**
 
-
-Now that you have Git installed, let's get started. First, we need to figure out where we are. To see your current folder, type 'pwd' (previews working directory). Hit return, and copy/paste what you see into the space below.
+First, we need to figure out where we are. To see your current folder, type `pwd` (previews working directory). Hit return, and paste both the line on which you typed the command and the line(s) below it
 
 ```{r pwd, echo=FALSE}
 question_text("copy/paste here:",
@@ -64,11 +78,13 @@ question_text("copy/paste here:",
               allow_retry = TRUE)
 ```
 
+###
 
-### Seeing Items in the Directory: ls
+### Exercise 2
 
+**Seeing Items in the Directory: `ls`**
 
-So now that we know what folder we are in...how can we see it? Type 'ls' in the terminal and hit return. You should see all the items that are located in the bottom right window under "Home". Copy/paste what you see into the space below.
+Type `ls` in the terminal and hit return to see all the items that are located in the bottom right window under "Home". Paste both the line on which you typed the command and the line(s) below it
 
 ```{r ls, echo=FALSE}
 question_text("copy/paste here:",
@@ -78,9 +94,12 @@ question_text("copy/paste here:",
               allow_retry = TRUE)
 ```
 
-### Changing Directories:cd
-**Part I.**
-To open/close folders we use 'cd'. For our purposes, we will be opening or "changing" into our Desktop directory. Type in the command 'cd Desktop/' and copy/paste what you see into the space below.
+### Exercise 3 (part I)
+
+**Changing Directories:`cd`**
+
+We will be opening or "changing" into our Desktop directory now. Type in the command `cd Desktop/`. Paste both the line on which you typed the command and the line(s) below it.
+
 ```{r cd, echo=FALSE}
 question_text("copy/paste here:",
               answer(NULL, correct = TRUE),
@@ -90,15 +109,38 @@ question_text("copy/paste here:",
 
 ```
 
-**Part II.**
-Awesome. Now type 'ls'. What do you think will happen?
+### Exercise 3 (part II)
+Awesome. Now type `ls`. Copy/paste both the line on which you typed the command and the line(s) below it.
 
-### Make/Remove Directories: mkdir, rmdir
-Ok, time to get organized. Let's trying making a folder called Gov-50 using the command 'mkdir Gov-50' and hit return. Use "ls" to see your newly created folder!
+```{r cd2, echo=FALSE}
+question_text("copy/paste here:",
+              answer(NULL, correct = TRUE),
+              incorrect = "Ok",
+              try_again_button = "Modify your answer",
+              allow_retry = TRUE)
 
+```
 
-### Creating files: touch
-Now we are going to create a file. Type in 'touch: text.txt' and hit return. Now click ls. Copy/paste what you see in the space below.
+### Exercise 4
+
+**Make/Remove Directories: `mkdir`, `rmdir`**
+
+Let's try making a folder called Gov-50. Use the command `mkdir Gov-50`and hit return. Now type `ls` to see your newly created folder! Copy/paste both the line on which you typed the command and the line(s) below it.
+ 
+```{r mk-1, echo=FALSE}
+question_text("copy/paste here:",
+              answer(NULL, correct = TRUE),
+              incorrect = "Ok",
+              try_again_button = "Modify your answer",
+              allow_retry = TRUE)
+
+```
+
+### Exercise 5
+
+**Creating files: `touch`**
+
+Now we are going to create a file. Type in `touch: text.txt`and hit return. Now type `ls`. Paste both the line on which you typed the command and the line(s) below it
 
 ```{r touch, echo=FALSE}
 question_text("copy/paste here:",
@@ -109,8 +151,11 @@ question_text("copy/paste here:",
 
 ```
 
-### Moving Files: mv
-Alright...lets try moving our text.txt file to our Gov-50 folder using 'mv test.txt Gov-50/'. Now let's check! Use 'cd' to open our Gov-50 folder and ls to show its contents. Copy/paste what you see below!
+### Exercise 6
+
+**Moving Files: `mv`**
+
+Now try moving our text.txt file to our Gov-50 folder. Type `mv test.txt Gov-50/`. Now let's check! Use `cd` to open our Gov-50 folder and `ls` to show its contents. Paste both the line on which you typed the command and the line(s) below it
 
 ```{r mv, echo=FALSE}
 question_text("copy/paste here:",
@@ -120,14 +165,84 @@ question_text("copy/paste here:",
               allow_retry = TRUE)
 ```
 
-### Copying Files: cp
+### Exercise 7
 
-Now try copying the test.txt file into your Gov-50 folder. Use 'cp test.txt Gov-50/.
+**Copying Files: `cp`**
+
+Try copying the test.txt file into your Gov-50 folder. Use `cp test.txt Gov-50/`. Paste both the line on which you typed the command and the line(s) below it.
+
+```{r cp-1, echo=FALSE}
+question_text("copy/paste here:",
+              answer(NULL, correct = TRUE),
+              incorrect = "Ok",
+              try_again_button = "Modify your answer",
+              allow_retry = TRUE)
+```
+
+### Exercise 8
+
+**Removing Files:`rm`**
+
+Now lets try removing that same text.txt file with `rm`. Use `ls` to make sure it is gone!
+
+## Git
+### 
+
+### Exercise 1 
+
+Type `git config user.name`. Copy/paste both the line on which you typed the command and the line(s) below it. 
+
+```{r gc-1, echo=FALSE}
+question_text("copy/paste here:",
+              answer(NULL, correct = TRUE),
+              incorrect = "Ok",
+              try_again_button = "Modify your answer",
+              allow_retry = TRUE)
+```
 
 
-### Removing Files:rm
+### Exercise 2
 
-Now lets try removing that same text.txt file with 'rm'. Use 'ls' to make sure it is gone!
+Type `git config user.email` .Copy/paste both the line on which you typed the command and the line(s) below it.
+
+```{r gc-2, echo=FALSE}
+question_text("copy/paste here:",
+              answer(NULL, correct = TRUE),
+              incorrect = "Ok",
+              try_again_button = "Modify your answer",
+              allow_retry = TRUE)
+```
+
+### Exercise 3
+
+Now, switch out of the terminal window into the console window. Install the package `usethis`. Issue the command `install.packages("usethis")`.
+
+**DO NOT** go on until you have done this.
+
+### Exercise 4
+
+So now that you installed `usethis`, run the command `git_sitrep()`. You will see a bunch of code divided into 5 sections. Copy/paste the first section under **Git config (global)**.
+
+```{r gc-3, echo=FALSE}
+question_text("copy/paste here:",
+              answer(NULL, correct = TRUE),
+              incorrect = "Ok",
+              try_again_button = "Modify your answer",
+              allow_retry = TRUE)
+```
+
+
+### Exercise 5
+
+Awesome. Now copy/paste the third section under **GitHub**.
+
+```{r gc-4, echo=FALSE}
+question_text("copy/paste here:",
+              answer(NULL, correct = TRUE),
+              incorrect = "Ok",
+              try_again_button = "Modify your answer",
+              allow_retry = TRUE)
+```
 
 ## Submit
 
